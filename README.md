@@ -1,13 +1,13 @@
 # egoo
 Egoo CLI. includes several tools to improve work efficiency.
 ## 安装：
-1. 安装<a href="https://nodejs.org/" title="nodejs" target="_blank">Node.js</a>。v8.0+
+1. 安装[Node.js](https://nodejs.org/)。v8.0+
 2. 在命令行（开始--cmd），输入`node -v`，出现版本信息（类似`v8.0.0`），表明Node.js安装成功。
-3. 安装 **egoo** 命令行工具。
+3. 安装 *egoo* 命令行工具。
 ```
 npm install egoo --registry=http://192.168.0.11:7001 -g
 ```
-更新 **egoo** 也使用上述命令。
+更新 *egoo* 也使用上述命令。
 
 4. 输入`egoo -v`，出现版本信息（类似`1.1.2`），表明egoo安装成功。
 5. 如果更新有问题，则使用
@@ -21,7 +21,7 @@ npm rm egoo -g
 ### 发布：
 将文件发布到内网或者外网。
 发布到内网。主要方便本地无web server的开发同学，1.进行H5页面真机调试; 2.将地址给相应设计同学进行体验确认。  
-发布到外网。提供给需求方预览地址（主要是H5页面），供其扫描二维码体验确认。<a href="http://www.liantu.com/" title="URL转二维码链接" target="_blank">URL转二维码链接</a>。  
+发布到外网。提供给需求方预览地址（主要是H5页面），供其扫描二维码体验确认。[URL转二维码链接](http://www.liantu.com/))。
 ```
 egoo pub/publish [source] [options]
 ```
@@ -49,8 +49,8 @@ egoo pub E:\workspace\zoom_bug -d
 - 内网：`http://192.168.1.11/preview/[pathname]/`
 - 外网：`https://preview.egoodev.cn/[pathname]/`
 
-**[pathname]**表示上传文件名。  
-cmd出现<span style="color:green;">**publish success.**</span>，表示发布成功。
+*[pathname]*表示上传文件名。  
+cmd出现*publish success.*，表示发布成功。
 
 #### 注意事项
 1. 上传的文件夹（包括其下所有文件名、文件夹名）不能包含中文，否则会因乱码而无法访问。例如：
@@ -60,11 +60,11 @@ source为`E:\workspace\201503\互娱\a20150312mweud奖励`不可以。
 source为`E:\workspace\201503\互娱\SQ26659`，不可以。  
 source为`E:\workspace\201503\互娱\sq26659`，可以。  
 3. 如果上传的文件路径存在特殊字符，如空格、括号等，则需要用引号包裹。如:`E:\H5无线端页面\20141208-WX17007-双十二充值活动(submitted)\WX17007`，那么上传命令则为`egoo publish "E:\H5无线端页面\20141208-WX17007-双十二充值活动(submitted)\WX17007"`。
-4. **重点：外网地址只是临时地址，仅用于预览体验，不能作为正式发布地址。如果接口人有分享该地址到朋友圈等公开地址的行为，要告知接口人不能这样做——就说是临时预览地址，不稳定，随时可能失效。**
+4. *重点：外网地址只是临时地址，仅用于预览体验，不能作为正式发布地址。如果接口人有分享该地址到朋友圈等公开地址的行为，要告知接口人不能这样做——就说是临时预览地址，不稳定，随时可能失效。*
 
 ---
 
-### TinyPNG压缩：<span style="font-size:10px;color:red;">egoo 3.0+ nodejs 8.0+</span>
+### TinyPNG压缩：
 压缩PNG图片。
 #### 使用前必读
 使用之前，需前往[TinyPNG开发者页面](https://tinypng.com/developers)注册，获取免费的API KEY。获取步骤如下：
@@ -91,8 +91,8 @@ egoo tiny E:\workspace\a20170817wfgx\ossweb-img
 
 ---
 
-### 图片尺寸偶数化：<span style="font-size:10px;color:red;">egoo 3.0+ nodejs 8.0+</span>
-将图片尺寸偶数化，如255x105的图片，将会被调整至256x106。因为京东规范要求**[图片尺寸严禁使用奇数值](https://jdc.jd.com/cp/#1-尺寸-单位)**，故创建本工具。
+### 图片尺寸偶数化：
+将图片尺寸偶数化，如255x105的图片，将会被调整至256x106。因为京东规范要求*[图片尺寸严禁使用奇数值](https://jdc.jd.com/cp/#1-尺寸-单位)*，故创建本工具。
 #### 使用前必读
 使用之前，必须安装[GraphicsMagick](http://www.graphicsmagick.org/)，
 [GraphicsMagick下载地址](ftp://ftp.graphicsmagick.org/pub/GraphicsMagick/windows/GraphicsMagick-1.3.26-Q16-win64-dll.exe)。
@@ -136,7 +136,7 @@ egoo ie E:\workspace\a20170817wfgx\ossweb-img
 	
 	因无法解决腾讯管家列黑名单的问题，作为变通的解决办法为：
 
-	将上传文件变更为**单独的二级域名访问**（由 `http://preview.egooimg.cn/[pathname]/` 变更为 `http://[pathname].egooimg.cn/`），防止相同域名下交叉感染，导致全部受限。
+	将上传文件变更为*单独的二级域名访问*（由 `http://preview.egooimg.cn/[pathname]/` 变更为 `http://[pathname].egooimg.cn/`），防止相同域名下交叉感染，导致全部受限。
 
 	然并卵，二级域名被禁，也可能牵连主域名，导致全部受限。
 
@@ -171,8 +171,8 @@ egoo ie E:\workspace\a20170817wfgx\ossweb-img
 + 2017-02-10   v3.0.0   添加TinyPNG，imgEven工具。
 
 
-[site_in_blacklist]:https://github.com/egoo-wh/egoo/raw/master/images/site_in_blacklist.png
-[tinypng_reg]:https://github.com/egoo-wh/egoo/raw/master/images/tinypng_reg.png
-[tinypng_key]:https://github.com/egoo-wh/egoo/raw/master/images/tinypng_key.png
+[site_in_blacklist]:https://github.com/egoo-wh/egoo/raw/master/demo/site_in_blacklist.png
+[tinypng_reg]:https://github.com/egoo-wh/egoo/raw/master/demo/tinypng_reg.png
+[tinypng_key]:https://github.com/egoo-wh/egoo/raw/master/demo/tinypng_key.png
 
 
