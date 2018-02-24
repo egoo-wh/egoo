@@ -1,0 +1,41 @@
+{
+  "name": "egoo",
+  "version": "1.0.0",
+  "description": "Egoo CLI. includes several tools to improve work efficiency.",
+  "preferGlobal": true,
+  "bin": {
+    "egoo": "bin/egoo"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "egoo",
+    "egoo CLI",
+    "workflow",
+    "tools"
+  ],
+  "author": "pata",
+  "files": [
+    "README.md",
+    "bin/",
+    "lib/",
+    "data/"
+  ],
+  "license": "",
+  "dependencies": {
+    "commander": "^2.12.2",
+    "gm": "^1.23.0",
+    "gulp-util": "^3.0.8",
+    "iconv-lite": "^0.4.19",
+    "jschardet": "^1.6.0",
+    "lodash": "^4.17.4",
+    "node-fetch": "^1.7.3",
+    "prompt": "^1.0.0",
+    "ssh2": "^0.5.5",
+    "tinify": "^1.5.0"
+  },
+  "devDependencies": {
+    "gulp": "^3.8.11"
+  }
+}

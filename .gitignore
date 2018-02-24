@@ -1,0 +1,10 @@
+# project ignores
+
+node_modules
+*.DS_Store
+npm-debug.log
+data
+_data
+__temp
+__unused_files
+project

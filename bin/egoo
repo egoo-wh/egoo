@@ -1,0 +1,69 @@
+#!/usr/bin/env node
+
+'use strict';
+
+let commander = require('commander');
+let pkg       = require('../package.json');
+let CLI       = require('../lib/CLI');
+let UserConf  = require('../lib/utils/UserConf');
+const path = require('path');
+
+global.rootPath = path.join(__dirname, '..');
+global.userConf = new UserConf;
+
+let handler = null;
+
+commander.version(pkg.version)
+	.option('-v --version', 'output the version number');
+
+/*
+publish
+ */
+commander.command('publish <source>')
+	.alias('pub')
+	.description('上传内容至服务器')
+	.option('-d --dist', '上传到外网')
+	.option('--remotepath [value]', '服务器目标目录，默认为/mnt/preview/')
+	.option('--nocache', '无需文件缓存，即没有hash缓存文件(filehash.json)')
+	.action(function(source, options){
+		let dist = options.dist || false;
+		let remotepath = options.remotepath || null;
+		handler = CLI.publish(source, remotepath, dist, options.nocache);
+	});
+
+
+/*
+imgeven
+ */
+commander.command('imgeven <source>')
+	.alias('ie')
+	.description('图片尺寸偶数化')
+	.action(function(source){
+		handler = CLI.imgEven(source);
+	});
+
+
+/*
+tinypng
+ */
+commander.command('tinypng <source>')
+	.alias('tiny')
+	.description('TinyPNG图片压缩')
+	.action(function(source){
+		handler = CLI.tinypng(source);
+	});
+
+
+commander.parse(process.argv);
+
+
+// shutdown.  ctrl-c强制退出
+process.on("SIGINT", function () {
+  //graceful shutdown
+  if (handler) {
+  	console.log('shutdown');
+  	handler.emit('shutdown');
+  };
+
+  process.exit();
+});
