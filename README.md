@@ -16,11 +16,16 @@ npm rm egoo -g
 ```
 先卸载，然后重复步骤3再次安装。
 
+##使用
+[发布功能](#发布)
+[分离功能](#分离)(beta)
+[TinyPNG图片压缩](#tinyPNG批量图片压缩)(beta)
+[图片尺寸偶数化](#图片尺寸偶数化)(beta)
 
 ## 发布
 将文件发布到内网或者外网。  
 发布到内网。主要方便本地无web server的开发同学，1.进行H5页面真机调试; 2.将地址给相应设计同学进行体验确认。  
-发布到外网。提供给需求方预览地址（主要是H5页面），供其扫描二维码体验确认。[URL转二维码链接](http://www.liantu.com/))。
+发布到外网。提供给需求方预览地址（主要是H5页面），供其扫描二维码体验确认。[URL转二维码链接](http://www.liantu.com/)
 ```
 egoo pub/publish [source] [options]
 ```
@@ -63,10 +68,13 @@ source为`E:\workspace\201503\互娱\a20150312mweud奖励`不可以。
 ---
 
 ## 分离(beta)
-做下列几件事情：
+为了简化图片分离操作，实现此功能。  
+分离功能做下列几件事情：
 1. 复制项目并重命名（项目名后面加“分离后”）
-2. 图片分离，只分离html文件(.htm,.html,.shtml,.inc)和css文件
+2. 图片分离，分离html文件(.htm,.html,.shtml,.inc)和css文件中的图片地址。
 3. 去掉html文件中绝对路径前的http(s):
+
+所以，该功能将创建一个分离后的版本。
 ```
 egoo fenli [source] [options]
 ```
@@ -86,9 +94,10 @@ source | 要分离的文件路径
 - `egoo fenli E:\workspace\DNF-元宵许愿\a20180108wish -a DNF`
 - `egoo fenli E:\workspace\DNF-元宵许愿\a20180108wish -u //game.gtimg.cn/images/dnf/cp/`
 
-上述命令会分离该项目。
+上述命令会创建一个*分离后的项目*。
 ### 注意事项
-分离工具，只分离html文件和CSS文件。如果其他文件（JS文件）有需要分离的路径，需自己单独处理。
+1. 分离工具，只分离html文件和CSS文件。如果其他文件（JS文件）有需要分离的路径，需自己单独处理。
+2. beta阶段，谨慎使用。
 
 ---
 
@@ -122,7 +131,8 @@ egoo tiny E:\workspace\a20170817wfgx\ossweb-img
 上述命令表示压缩该目录下所有图片。
 
 ### 注意事项
-根据TinyPNG官网信息显示：每个免费的API KEY，每月只有500次的压缩机会，所以，请酌情使用。
+1. 根据TinyPNG官网信息显示：每个免费的API KEY，每月只有500次的压缩机会，所以，请酌情使用。
+2. beta阶段，谨慎使用。
 
 ---
 
@@ -150,6 +160,7 @@ egoo ie E:\workspace\a20170817wfgx\ossweb-img
 ### 注意事项
 1. 只能调整JPG，PNG格式的图片。
 2. 调整都是向上调整。如157x155会调整成158x156。
+3. beta阶段，谨慎使用。
 
 --- 
 
