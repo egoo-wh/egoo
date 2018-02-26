@@ -63,7 +63,7 @@ source为`E:\workspace\201503\互娱\sq26659`，可以。
 
 ---
 
-##分离(beta)
+## 分离(beta)
 做下列几件事情：
 1. 复制项目并重命名（项目名后面加“分离后”）
 2. 图片分离，只分离html文件(.htm,.html,.shtml,.inc)和css文件
@@ -81,12 +81,14 @@ source | 要分离的文件路径
  Options  | Description
 ------------- | -------------
 -d --url  | 指定分离路径。如（//game.gtimg.cn/images/dnf/cp/）
--a --aliases | 项目所属产品的别名，根据产品找到对应分离路径。如地下城与勇士为dnf，QQ飞车为speed，王者荣耀为pvp，一般为产品官网缩写。~~具体别名请查看(http://192.168.1.11/fenli)~~
+-a --aliases | 项目所属产品的别名，根据产品找到对应分离路径。如地下城与勇士为dnf，QQ飞车为speed，王者荣耀为pvp，一般为产品官网缩写。如果别名未找到，请使用-u。~~具体别名请查看(http://192.168.1.11/fenli)~~
 
 例如：
-`egoo fenli E:\workspace\DNF-元宵许愿\a20180108wish -a DNF`或`egoo fenli E:\workspace\DNF-元宵许愿\a20180108wish -u //game.gtimg.cn/images/dnf/cp/`
+- `egoo fenli E:\workspace\DNF-元宵许愿\a20180108wish -a DNF`
+- `egoo fenli E:\workspace\DNF-元宵许愿\a20180108wish -u //game.gtimg.cn/images/dnf/cp/`
+上述命令会分离该项目。
 
-###注意事项
+### 注意事项
 分离工具，只分离html文件和CSS文件。如果其他文件（JS文件）有需要分离的路径，需自己单独处理。
 
 ---
