@@ -18,7 +18,7 @@ npm rm egoo -g
 
 
 ## 发布
-将文件发布到内网或者外网。
+将文件发布到内网或者外网。  
 发布到内网。主要方便本地无web server的开发同学，1.进行H5页面真机调试; 2.将地址给相应设计同学进行体验确认。  
 发布到外网。提供给需求方预览地址（主要是H5页面），供其扫描二维码体验确认。[URL转二维码链接](http://www.liantu.com/))。
 ```
@@ -41,17 +41,14 @@ source | 要上传的文件路径
 ```
 egoo pub E:\workspace\zoom_bug -d
 ```
-上述命令表示将zoom_bug文件夹发布到外网，发布成功之后即可通过 `https://preview.egoodev.cn/zoom_bug/` 进行访问。
-
+上述命令表示将zoom_bug文件夹发布到外网，发布成功之后即可通过 `https://preview.egoodev.cn/zoom_bug/` 进行访问。  
 如不加`-d`则是内网环境（默认发布内网），对应的访问地址为： `http://192.168.1.11/preview/zoom_bug/` 。  
-访问地址规则如下：
-
+访问地址规则如下：  
 - 内网：`http://192.168.1.11/preview/[pathname]/`
 - 外网：`https://preview.egoodev.cn/[pathname]/`
 
 **[pathname]**表示上传文件名。  
-
-cmd出现**publish success.**，表示发布成功。
+命令行出现**publish success.**，表示发布成功。
 
 ### 注意事项
 1. **重点：外网地址只是临时地址，仅用于预览体验，不能作为正式发布地址。如果接口人有分享该地址到朋友圈等公开地址的行为，要告知接口人不能这样做——就说是临时预览地址，不稳定，随时可能失效。**
