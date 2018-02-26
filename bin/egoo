@@ -5,11 +5,9 @@
 let commander = require('commander');
 let pkg       = require('../package.json');
 let CLI       = require('../lib/CLI');
-let UserConf  = require('../lib/utils/UserConf');
 const path = require('path');
 
 global.rootPath = path.join(__dirname, '..');
-global.userConf = new UserConf;
 
 let handler = null;
 
@@ -53,6 +51,19 @@ commander.command('tinypng <source>')
 		handler = CLI.tinypng(source);
 	});
 
+
+/*
+fenli
+ */
+commander.command('fenli <source>')
+	.description('分离')
+	.option('-u --url [value]', '指定分离路径。如（//game.gtimg.cn/images/dnf/cp/）')
+	.option('-a --aliases [value]', '项目所属产品的别名，根据产品找到对应分离路径。如地下城与勇士为dnf，QQ飞车为speed，王者荣耀为pvp，一般为产品官网缩写。')
+	.action(function(source, options){
+		let aliases = options.aliases || null;
+		let url = options.url || null;
+		handler = CLI.fenli(source, aliases, url);
+	});
 
 commander.parse(process.argv);
 

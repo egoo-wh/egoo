@@ -17,7 +17,7 @@ npm rm egoo -g
 先卸载，然后重复步骤3再次安装。
 
 
-## 发布功能
+## 发布
 将文件发布到内网或者外网。
 发布到内网。主要方便本地无web server的开发同学，1.进行H5页面真机调试; 2.将地址给相应设计同学进行体验确认。  
 发布到外网。提供给需求方预览地址（主要是H5页面），供其扫描二维码体验确认。[URL转二维码链接](http://www.liantu.com/))。
@@ -63,7 +63,35 @@ source为`E:\workspace\201503\互娱\sq26659`，可以。
 
 ---
 
-## TinyPNG批量图片压缩功能
+##分离(beta)
+做下列几件事情：
+1. 复制项目并重命名（项目名后面加“分离后”）
+2. 图片分离，只分离html文件(.htm,.html,.shtml,.inc)和css文件
+3. 去掉html文件中绝对路径前的http(s):
+```
+egoo fenli [source] [options]
+```
+### 参数：
+Param | Description
+----- | ------------
+source | 要分离的文件路径
+
+### 选项：
+
+ Options  | Description
+------------- | -------------
+-d --url  | 指定分离路径。如（//game.gtimg.cn/images/dnf/cp/）
+-a --aliases | 项目所属产品的别名，根据产品找到对应分离路径。如地下城与勇士为dnf，QQ飞车为speed，王者荣耀为pvp，一般为产品官网缩写。~~具体别名请查看(http://192.168.1.11/fenli)~~
+
+例如：
+`egoo fenli E:\workspace\DNF-元宵许愿\a20180108wish -a DNF`或`egoo fenli E:\workspace\DNF-元宵许愿\a20180108wish -u //game.gtimg.cn/images/dnf/cp/`
+
+###注意事项
+分离工具，只分离html文件和CSS文件。如果其他文件（JS文件）有需要分离的路径，需自己单独处理。
+
+---
+
+## TinyPNG批量图片压缩(beta)
 压缩PNG图片。
 ### 使用前必读
 使用之前，需前往[TinyPNG开发者页面](https://tinypng.com/developers)注册，获取免费的API KEY。获取步骤如下：
@@ -90,8 +118,9 @@ egoo tiny E:\workspace\a20170817wfgx\ossweb-img
 
 ---
 
-## 图片尺寸偶数化功能
+## 图片尺寸偶数化(beta)
 将图片尺寸偶数化，如255x105的图片，将会被调整至256x106。因为京东规范要求[图片尺寸严禁使用奇数值](https://jdc.jd.com/cp/#1-尺寸-单位)，故创建本工具。
+针对PNG图片，偶数化通过增加1px的透明边实现；JPG图片则直接向上拉伸为偶数。
 ### 使用前必读
 使用之前，必须安装[GraphicsMagick](http://www.graphicsmagick.org/)，
 [GraphicsMagick下载地址](ftp://ftp.graphicsmagick.org/pub/GraphicsMagick/windows/GraphicsMagick-1.3.26-Q16-win64-dll.exe)。
