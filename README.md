@@ -1,20 +1,16 @@
 # egoo
-Egoo CLI. includes several tools to improve work efficiency.
+egoo命令行。包含一些提高工作效率的工具。
+
 ## 安装
-
-### 安装前准备
-安装前，需要git环境。
-
-### 安装
-1. 安装[Node.js](https://nodejs.org/)(v8.0+)。如果已有node环境则跳过此步。
-2. 安装[Git](https://git-scm.com/)。如果已有Git环境则跳过此步。
+1. 安装[Node.js](https://nodejs.org/)(v8.0+)。如已有node环境则跳过此步。
+2. 安装[Git](https://git-scm.com/)。如已有Git环境则跳过此步。
 3. 安装 **egoo** 命令行工具。`npm i -g https://github.com/egoo-wh/egoo`。更新 **egoo** 也使用此命令。
-4. 输入`egoo -v`，出现版本信息（类似`1.1.2`），表明egoo安装成功。
+4. 输入`egoo -v`，出现版本信息（类似`1.1.2`），表明 **egoo** 安装成功。
 5. 如果更新有问题，则使用`npm rm egoo -g`。先卸载，然后重复步骤3再次安装。
 
 ## 使用
 - [发布功能](#发布)
-- [Git发布功能](#git发布)
+- [Git发布功能](#git发布)（beta)
 - [分离功能](#分离)(beta)
 - [TinyPNG图片压缩](#tinypng批量图片压缩)(beta)
 - [图片尺寸偶数化](#图片尺寸偶数化)(beta)
@@ -99,8 +95,8 @@ source | 要分离的文件路径
 
  Options  | Description
 ------------- | -------------
--d --url  | 指定分离路径。如（//game.gtimg.cn/images/dnf/cp/）
--a --aliases | 项目所属产品的别名，根据产品找到对应分离路径。如地下城与勇士为dnf，QQ飞车为speed，王者荣耀为pvp，一般为产品官网缩写。如果别名未找到，请使用-u。~~具体别名请查看(http://192.168.1.11/fenli)~~
+-u --url  | 指定分离路径。如（//game.gtimg.cn/images/dnf/cp/）
+-a --aliases | 项目所属产品的别名，根据产品找到对应分离路径。如地下城与勇士为dnf，QQ飞车为speed，王者荣耀为pvp，一般为产品官网缩写。~~具体别名请查看(http://192.168.1.11/fenli) ，如果别名未找到，请使用-u。~~
 
 例如：
 - `egoo fenli E:\workspace\DNF-元宵许愿\a20180108wish -a DNF`
