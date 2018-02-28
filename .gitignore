@@ -4,6 +4,7 @@ node_modules
 *.DS_Store
 npm-debug.log
 data
+server
 _data
 __temp
 __unused_files

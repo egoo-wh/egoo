@@ -65,6 +65,15 @@ commander.command('fenli <source>')
 		handler = CLI.fenli(source, aliases, url);
 	});
 
+/*
+git publish
+ */
+commander.command('gitpub <source>')
+	.description('上传内容至gitee.com pages服务')
+	.action(function(source, options){
+		handler = CLI.gitPub(source);
+	});
+
 commander.parse(process.argv);
 
 
