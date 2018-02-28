@@ -34,8 +34,5 @@
     "prompt": "^1.0.0",
     "ssh2": "^0.5.5",
     "tinify": "^1.5.0"
-  },
-  "devDependencies": {
-    "gulp": "^3.8.11"
   }
 }
