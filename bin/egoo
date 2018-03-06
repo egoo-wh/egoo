@@ -58,7 +58,7 @@ fenli
 commander.command('fenli <source>')
 	.description('分离')
 	.option('-u --url [value]', '指定分离路径。如（//game.gtimg.cn/images/dnf/cp/）')
-	.option('-a --aliases [value]', '项目所属产品的别名，根据产品找到对应分离路径。如地下城与勇士为dnf，QQ飞车为speed，王者荣耀为pvp，一般为产品官网缩写。')
+	.option('-a --aliases [value]', '项目所属游戏的别名，根据游戏找到对应分离路径。如地下城与勇士为dnf，QQ飞车为speed，王者荣耀为pvp，一般为游戏的官网缩写。')
 	.action(function(source, options){
 		let aliases = options.aliases || null;
 		let url = options.url || null;
@@ -70,8 +70,10 @@ git publish
  */
 commander.command('gitpub <source>')
 	.description('上传内容至gitee.com pages服务')
+	.option('--sync', '不上传，直接执行git sync命令')
 	.action(function(source, options){
-		handler = CLI.gitPub(source);
+		let isSync = options.sync || null;
+		handler = CLI.gitPub(source, isSync);
 	});
 
 commander.parse(process.argv);

@@ -96,7 +96,7 @@ source | 要分离的文件路径
  Options  | Description
 ------------- | -------------
 -u --url  | 指定分离路径。如（//game.gtimg.cn/images/dnf/cp/）
--a --aliases | 项目所属产品的别名，根据产品找到对应分离路径。如地下城与勇士为dnf，QQ飞车为speed，王者荣耀为pvp，一般为产品官网缩写。~~具体别名请查看(http://192.168.1.11/fenli) ，如果别名未找到，请使用-u。~~
+-a --aliases | 项目所属产品的别名，根据产品找到对应分离路径。如地下城与勇士为dnf，QQ飞车为speed，王者荣耀为pvp，一般为产品官网缩写。具体别名请查看(http://fenli.egooidea.com/) ，如果别名未找到，请使用-u。
 
 例如：
 - `egoo fenli E:\workspace\DNF-元宵许愿\a20180108wish -a DNF`
