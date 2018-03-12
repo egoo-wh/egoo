@@ -69,7 +69,7 @@ egoo gitpub [source]
 ```
 用法与pub命令相似。
 发布后的访问地址为：  
-`http://pata_liu.gitee.io/pages/prw/[pathname]`
+`http://egdev.gitee.io/pages/prw/[pathname]`
 
 ### 注意事项
 1. **上传的文件，每天都会被清空**，此举是为了更大限度地降低被封风险。
