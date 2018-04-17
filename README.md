@@ -80,8 +80,8 @@ egoo gitpub [source]
 为了简化图片分离操作，实现此功能。  
 分离功能做下列几件事情：
 1. 复制项目并重命名（项目名后面加“分离后”）
-2. 图片分离，分离html文件(.htm,.html,.shtml,.inc)和css文件中的图片地址。
-3. 去掉html文件中绝对路径前的http(s):
+2. 图片分离，分离html文件(.htm,.html,.shtml,.inc)和css文件中的图片地址
+3. 去掉html文件中，除了分享图片地址(TGMobileShare内)之外的绝对路径前的http(s):
 
 所以，该功能将创建一个分离后的版本。
 ```
