@@ -1,6 +1,6 @@
 {
   "name": "egoo",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Egoo CLI. includes several tools to improve work efficiency.",
   "preferGlobal": true,
   "bin": {
