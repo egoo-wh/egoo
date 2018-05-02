@@ -21,12 +21,14 @@ commander.command('publish <source>')
 	.alias('pub')
 	.description('上传内容至服务器')
 	.option('-d --dist', '上传到外网')
-	.option('--remotepath [value]', '服务器目标目录，默认为/mnt/preview/')
+	.option('-r --remotepath [value]', '服务器目标目录，默认为/mnt/preview/')
 	.option('--nocache', '无需文件缓存，即没有hash缓存文件(filehash.json)')
+	.option('-c --configpath [value]', '服务器配置文件地址，默认为http://192.168.1.11/static/server_config.json')
 	.action(function(source, options){
 		let dist = options.dist || false;
 		let remotepath = options.remotepath || null;
-		handler = CLI.publish(source, remotepath, dist, options.nocache);
+		handler = CLI.publish(source, remotepath, dist, options.nocache, options.configpath);
+		console.log(handler);
 	});
 
 
@@ -70,7 +72,6 @@ git publish
  */
 commander.command('gitpub <source>')
 	.description('上传内容至gitee.com pages服务')
-	.option('--sync', '不上传，直接执行git sync命令')
 	.action(function(source, options){
 		let isSync = options.sync || null;
 		handler = CLI.gitPub(source, isSync);

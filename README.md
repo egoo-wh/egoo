@@ -81,7 +81,9 @@ egoo gitpub [source]
 分离功能做下列几件事情：
 1. 复制项目并重命名（项目名后面加“分离后”）
 2. 图片分离，分离html文件(.htm,.html,.shtml,.inc)和css文件中的图片地址
-3. 去掉html文件中，除了分享图片地址(TGMobileShare内)之外的绝对路径前的http(s):
+3. 去掉上述文件中绝对路径前的http(s):，以下情况除外：
+	- html文件，分享组件（TGMobileShare({shareImgUrl:https://...})），分享图地址的https不会去除。
+	- css文件中[svg data uri](https://css-tricks.com/lodge/svg/09-svg-data-uris/)的形式(`data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'`)时，http也不会删除。
 
 所以，该功能将创建一个分离后的版本。
 ```
@@ -97,7 +99,7 @@ source | 要分离的文件路径
  Options  | Description
 ------------- | -------------
 -u --url  | 指定分离路径。如（//game.gtimg.cn/images/dnf/cp/）
--a --aliases | 项目所属产品的别名，根据产品找到对应分离路径。如地下城与勇士为dnf，QQ飞车为speed，王者荣耀为pvp，一般为产品官网缩写。具体别名请查看(http://fenli.egooidea.com/) ，如果别名未找到，请使用-u。
+-a --aliases | 项目所属产品的别名，根据产品找到对应分离路径。如地下城与勇士为dnf，QQ飞车为speed，王者荣耀为pvp，一般为产品官网缩写。具体别名请查看(http://fenli.egooidea.com/) ，如果别名未找到，请添加或使用-u。
 
 例如：
 - `egoo fenli E:\workspace\DNF-元宵许愿\a20180108wish -a DNF`
