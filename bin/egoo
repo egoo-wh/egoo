@@ -28,7 +28,6 @@ commander.command('publish <source>')
 		let dist = options.dist || false;
 		let remotepath = options.remotepath || null;
 		handler = CLI.publish(source, remotepath, dist, options.nocache, options.configpath);
-		console.log(handler);
 	});
 
 
