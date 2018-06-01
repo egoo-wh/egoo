@@ -70,10 +70,10 @@ commander.command('fenli <source>')
 git publish
  */
 commander.command('gitpub <source>')
+	.option('-c --configpath [value]', '服务器配置文件地址，默认为http://192.168.1.11/static/server_config.json')
 	.description('上传内容至gitee.com pages服务')
 	.action(function(source, options){
-		let isSync = options.sync || null;
-		handler = CLI.gitPub(source, isSync);
+		handler = CLI.gitPub(source, options.configpath);
 	});
 
 commander.parse(process.argv);
