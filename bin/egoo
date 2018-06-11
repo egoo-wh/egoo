@@ -27,7 +27,7 @@ commander.command('publish <source>')
 	.action(function(source, options){
 		let dist = options.dist || false;
 		let remotepath = options.remotepath || null;
-		handler = CLI.publish(source, remotepath, dist, options.nocache, options.configpath);
+		handler = CLI.publish(source, remotepath, options.nocache, options.configpath);
 	});
 
 
@@ -70,10 +70,9 @@ commander.command('fenli <source>')
 git publish
  */
 commander.command('gitpub <source>')
-	.option('-c --configpath [value]', '服务器配置文件地址，默认为http://192.168.1.11/static/server_config.json')
 	.description('上传内容至gitee.com pages服务')
 	.action(function(source, options){
-		handler = CLI.gitPub(source, options.configpath);
+		handler = CLI.gitPub(source);
 	});
 
 commander.parse(process.argv);
