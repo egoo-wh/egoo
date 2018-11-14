@@ -1,0 +1,37 @@
+{
+	"version": "1.0.2",
+	"rules": [
+		{
+			"pattern": "(<script.*?src=[\"'](http(s)?:)?//ossweb-img.qq.com/images/js/PTT/ping_tcss_tgideas_https_min.js[\"'].*?></script>)",
+			"replacement": "<!-- $1 -->"
+		},
+		{
+			"pattern":"(if\\s*\\(\\s*typeof\\s*\\(\\s*pgvMain\\s*\\)\\s*==\\s*[\"']function[\"']\\s*\\)\\s*;*pgvMain\\(\\);?)",
+			"replacement": "/* $1 */"
+		},
+		{
+			"pattern":"(<script.*?src=[\"'](http(s)?:)?//ossweb-img.qq.com/images/js/TGMobileShare/TGMobileShare.min.js[\"'].*?></script>)",
+			"replacement": "<!-- $1 -->"
+		},
+		{
+			"pattern":"(TGMobileShare\\s*\\(\\s*\\{(.*?\\s*?)*?\\}\\);?)",
+			"replacement": "/* $1 */"
+		},
+		{
+			"pattern":"(PTTSendClick\\(.*\\)(;)?)",
+			"replacement": "return;$1"
+		},
+		{
+  		"pattern":"([lL]oginManager\\.(login|logout|init))",
+  		"replacement": "return;$1"
+  		},
+		{
+			"pattern":"(var\\s*setSite\\s*=\\s*\\{(.*?\\s*?)*?\\};?)",
+			"replacement": "/* $1 */"
+		},
+		{
+			"pattern":"(<script.*?src=[\"'](http(s)?:)?//ossweb-img.qq.com/images/js/login/loginmanagerv3.js[\"'].*?></script>)",
+			"replacement": "<!-- $1 -->"
+		}
+	]
+}
