@@ -5,6 +5,7 @@ node_modules
 npm-debug.log
 data
 server
+tests
 _data
 __temp
 __unused_files

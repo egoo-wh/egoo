@@ -10,7 +10,6 @@ egoo命令行。包含一些提高工作效率的工具。
 
 ## 使用
 - [发布功能](#发布)
-- [Git发布功能](#git发布)(beta)
 - [分离功能](#分离)(beta)
 - [TinyPNG图片压缩](#tinypng批量图片压缩)(beta)
 - [图片尺寸偶数化](#图片尺寸偶数化)(beta)
@@ -31,22 +30,19 @@ source | 要上传的文件路径
 
  Options  | Description
 ------------- | -------------
- -d  | 发布到外网。
---nocache | 无需缓存，全量覆盖。当不指定这一选项时，发布操作有缓存功能，即如果服务器已经存在和本地相同的文件，则该文件不会再次上传。指定这一选项后，则会忽略缓存，全部重新上传。
- --remotepath | 指定服务器目录地址，默认不需要指定。
+--git | 使用Git方式发布。因为发布的外网域名，经常被腾讯管家封，所以，考虑使用代码托管平台降低被封风险，并且也能降低启用新域名的时间金钱成本。  
+--nofilter | 不过滤敏感代码。默认过滤敏感代码（统计代码，登录组件等）
+--nocache | 无需缓存，全量覆盖。当不指定这一选项时，发布操作有缓存功能，即如果服务器已经存在和本地相同的文件，则该文件不会再次上传，节省上传时间。指定这一选项后，则会忽略缓存，全部重新上传。
+--remotepath | 指定服务器目录地址，默认不需要指定。
 
 例如：
 ```
-egoo pub E:\workspace\zoom_bug -d
+egoo pub E:\workspace\zoom_bug
+egoo pub E:\workspace\zoom_bug --git
+egoo pub E:\workspace\zoom_bug --git --nocache
 ```
-上述命令表示将zoom_bug文件夹发布到外网，发布成功之后即可通过 `https://preview.egoodev.cn/zoom_bug/` 进行访问。  
-如不加`-d`则是内网环境（默认发布内网），对应的访问地址为： `http://192.168.1.11/preview/zoom_bug/` 。  
-访问地址规则如下：  
-- 内网：`http://192.168.1.11/preview/[pathname]/`
-- 外网：`https://preview.egoodev.cn/[pathname]/`
-
-**[pathname]**表示上传文件名。  
-命令行出现**publish success.**，表示发布成功。
+上述命令表示发布zoom_bug文件夹。  
+命令行出现**publish success.**，表示发布成功。 **preview url**表示预览地址。
 
 ### 注意事项
 1. **重点：外网地址只是临时地址，仅用于预览体验，不能作为正式发布地址。如果接口人有分享该地址到朋友圈等公开地址的行为，要告知接口人不能这样做——就说是临时预览地址，不稳定，随时可能失效。**
@@ -58,21 +54,6 @@ source为`E:\workspace\201503\互娱\a20150312mweud奖励`不可以。
 4. 上传的文件名不能有大写字母，否则无法访问。例如：  
 source为`E:\workspace\201503\互娱\SQ26659`，不可以。  
 source为`E:\workspace\201503\互娱\sq26659`，可以。  
-
----
-
-## Git发布
-因为发布的外网域名，经常被腾讯管家封，所以，考虑使用代码托管平台降低被封风险，并且也能降低启用新域名的时间金钱成本。  
-该功能是`egoo pub`外网发布功能的一个替代方案。使用方法如下：
-```
-egoo gitpub [source]
-```
-用法与pub命令相似。
-发布后的访问地址为：  
-`http://egdev.gitee.io/pages/prw/[pathname]`
-
-### 注意事项
-1. **上传的文件，每天都会被清空**，此举是为了更大限度地降低被封风险。
 
 ---
 
@@ -99,7 +80,7 @@ source | 要分离的文件路径
  Options  | Description
 ------------- | -------------
 -u --url  | 指定分离路径。如（//game.gtimg.cn/images/dnf/cp/）
--a --aliases | 项目所属产品的别名，根据产品找到对应分离路径。如地下城与勇士为dnf，QQ飞车为speed，王者荣耀为pvp，一般为产品官网缩写。具体别名请查看(http://fenli.egooidea.com/) ，如果别名未找到，请添加或使用-u。
+-a --aliases | 项目所属产品的别名，根据产品找到对应分离路径。如地下城与勇士为dnf，QQ飞车为speed，王者荣耀为pvp，一般为产品官网缩写。具体别名请查看(https://fenli.egooidea.com/) ，如果别名未找到，请添加或使用-u选项。
 
 例如：
 - `egoo fenli E:\workspace\DNF-元宵许愿\a20180108wish -a DNF`
@@ -107,8 +88,36 @@ source | 要分离的文件路径
 
 上述命令会创建一个*分离后的项目*。
 ### 注意事项
-1. 分离工具，只分离html文件和CSS文件。如果其他文件（JS文件）有需要分离的路径，需自己单独处理。
+1. 分离工具，只分离html文件和CSS文件。如果其他文件（JS文件）有需要分离的路径，需自行单独处理。
 2. 只会分离ossweb-img|images目录下的图片
+3. beta阶段，谨慎使用。
+
+---
+
+## 图片尺寸偶数化
+将图片尺寸偶数化，如255x105的图片，将会被调整至256x106。因为京东规范要求[图片尺寸严禁使用奇数值](https://jdc.jd.com/cp/#1-尺寸-单位)，故创建本工具。
+针对PNG图片，偶数化通过增加1px的透明边实现；JPG图片则直接向上拉伸为偶数。
+### 使用前必读
+使用之前，必须安装[GraphicsMagick](http://www.graphicsmagick.org/)，
+[GraphicsMagick下载地址](ftp://ftp.graphicsmagick.org/pub/GraphicsMagick/windows/GraphicsMagick-1.3.26-Q16-win64-dll.exe)。
+
+```
+egoo ie/imgeven [source]
+```
+### 参数：
+Param | Description
+----- | ------------
+source | 要调整的文件路径。可以是文件或目录。如果是目录，则调整目录下所有图片。
+
+例如：
+```
+egoo ie E:\workspace\a20170817wfgx\ossweb-img
+```
+上述命令表示调整该目录下所有图片。
+
+### 注意事项
+1. 只能调整JPG，PNG格式的图片。
+2. 调整都是向上调整。如157x155会调整成158x156。
 3. beta阶段，谨慎使用。
 
 ---
@@ -145,34 +154,6 @@ egoo tiny E:\workspace\a20170817wfgx\ossweb-img
 ### 注意事项
 1. 根据TinyPNG官网信息显示：每个免费的API KEY，每月只有500次的压缩机会，所以，请酌情使用。
 2. beta阶段，谨慎使用。
-
----
-
-## 图片尺寸偶数化
-将图片尺寸偶数化，如255x105的图片，将会被调整至256x106。因为京东规范要求[图片尺寸严禁使用奇数值](https://jdc.jd.com/cp/#1-尺寸-单位)，故创建本工具。
-针对PNG图片，偶数化通过增加1px的透明边实现；JPG图片则直接向上拉伸为偶数。
-### 使用前必读
-使用之前，必须安装[GraphicsMagick](http://www.graphicsmagick.org/)，
-[GraphicsMagick下载地址](ftp://ftp.graphicsmagick.org/pub/GraphicsMagick/windows/GraphicsMagick-1.3.26-Q16-win64-dll.exe)。
-
-```
-egoo ie/imgeven [source]
-```
-### 参数：
-Param | Description
------ | ------------
-source | 要调整的文件路径。可以是文件或目录。如果是目录，则调整目录下所有图片。
-
-例如：
-```
-egoo ie E:\workspace\a20170817wfgx\ossweb-img
-```
-上述命令表示调整该目录下所有图片。
-
-### 注意事项
-1. 只能调整JPG，PNG格式的图片。
-2. 调整都是向上调整。如157x155会调整成158x156。
-3. beta阶段，谨慎使用。
 
 --- 
 

@@ -21,13 +21,13 @@ commander.command('publish <source>')
 	.alias('pub')
 	.description('上传内容至服务器')
 	.option('-d --dist', '上传到外网')
+	.option('-g --git', '上传到Gitee Pages')
 	.option('-r --remotepath [value]', '服务器目标目录，默认为/mnt/preview/')
-	.option('--nocache', '无需文件缓存，即没有hash缓存文件(filehash.json)')
 	.option('-c --configpath [value]', '服务器配置文件地址，默认为http://192.168.1.11/static/server_config.json')
+	.option('--nocache', '无需文件缓存，即全量上传。没有hash缓存文件(filehash.json)')
+	.option('--nofilter', '无需过滤腾讯登录组件和统计代码')
 	.action(function(source, options){
-		let dist = options.dist || false;
-		let remotepath = options.remotepath || null;
-		handler = CLI.publish(source, remotepath, options.nocache, options.configpath);
+		handler = CLI.publish(source, options);
 	});
 
 
@@ -64,15 +64,6 @@ commander.command('fenli <source>')
 		let aliases = options.aliases || null;
 		let url = options.url || null;
 		handler = CLI.fenli(source, aliases, url);
-	});
-
-/*
-git publish
- */
-commander.command('gitpub <source>')
-	.description('上传内容至gitee.com pages服务')
-	.action(function(source, options){
-		handler = CLI.gitPub(source);
 	});
 
 commander.parse(process.argv);
