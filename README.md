@@ -59,12 +59,26 @@ source为`E:\workspace\201503\互娱\sq26659`，可以。
 
 ## 分离
 为了简化图片分离操作，实现此功能。  
-分离功能做下列几件事情：
-1. 复制项目并重命名（项目名后面加“分离后”）
-2. 图片分离，分离html文件(.htm,.html,.shtml,.inc)和css文件中的图片地址
-3. 去掉上述文件中绝对路径前的http(s):，以下情况除外：
-	- html文件，分享组件（TGMobileShare({shareImgUrl:https://...})），分享图地址的https不会去除。
-	- css文件中[svg data uri](https://css-tricks.com/lodge/svg/09-svg-data-uris/)的形式(`data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'`)时，http也不会删除。
+分离工具。做下列几件事情：  
+1. 复制并重命名（项目名后面加“分离后”）整个包；
+2. 对html文件(.htm,.html,.shtml,.inc)和css文件内满足[特定规则的内容](#分离规则)。
+	- 分离图片。将ossweb-img/images的相对地址转换成cdn地址  
+	- 去除协议。删除url中的 **http(s):** 部分
+
+#### 分离规则
+- css样式的url()，不包含嵌入uri(data:image/...)内的http(s):部分
+- html标签href属性值。如下列标签：
+	- `<a href .. ></a>`
+	- `<link href ... >`
+	- `<base href ... >`
+	- ...
+- html标签src属性值。如下列标签：
+	- `<video src ... ></video>`
+	- `<audio src ... ></audio>`
+	- `<script src ... ></script>`
+	- `<video><source src ... /></video>`
+	- `<iframe src ... ></iframe>`
+	- ...
 
 所以，该功能将创建一个分离后的版本。
 ```
