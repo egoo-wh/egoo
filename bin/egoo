@@ -60,10 +60,9 @@ commander.command('fenli <source>')
 	.description('分离')
 	.option('-u --url [value]', '指定分离路径。如（//game.gtimg.cn/images/dnf/cp/）')
 	.option('-a --aliases [value]', '项目所属游戏的别名，根据游戏找到对应分离路径。如地下城与勇士为dnf，QQ飞车为speed，王者荣耀为pvp，一般为游戏的官网缩写。')
+	.option('-p --protocol', '保留协议部分')
 	.action(function(source, options){
-		let aliases = options.aliases || null;
-		let url = options.url || null;
-		handler = CLI.fenli(source, aliases, url);
+		handler = CLI.fenli(source, options);
 	});
 
 commander.parse(process.argv);
