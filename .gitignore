@@ -8,6 +8,8 @@ coverage
 demo
 src/decryption.ts
 src/encryption.ts
+lib/decryption.js
+lib/encryption.js
 .egookey
 static/server_config.json
 static/server_config_origin.json
