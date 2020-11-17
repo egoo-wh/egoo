@@ -1,0 +1,1 @@
+30 3 * * *  /bin/bash /mnt/pages/clean.sh

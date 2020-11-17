@@ -1,0 +1,41 @@
+{
+  "version": "1.0.0",
+  "mode": {
+    "git": {
+      "previewBaseUrl": "https://whegdev2.gitee.io/pages/prw/",
+      "remoteRootPath": "/media/gitee/pages/prw",
+      "injected": 1,
+      "replaced": 1
+    },
+    "web": {
+      "previewBaseUrl": "http://prvw.egoodev.cn/",
+      "remoteRootPath": "/media/egoodev.cn/prvw",
+      "injected": 1,
+      "replaced": 1
+    },
+    "local": {
+      "previewBaseUrl": "",
+      "injected": 1,
+      "replaced": 0
+    }
+  },
+  "injected": {
+    "csp": "script-src 'self' 'unsafe-inline' *.egooidea.com vm.gtimg.cn ossweb-img.qq.com/images/js/ game.gtimg.cn/images/js/2018foot/;",
+    "jspath": "http://cli.egooidea.com/injected/injected.js"
+  },
+  "replacements": [
+    {
+      "ext": "html",
+      "rules": [
+        {
+          "pattern": "腾讯官方网站",
+          "replace": ""
+        },
+        {
+          "pattern": "腾讯游戏",
+          "replace": ""
+        }
+      ]
+    }
+  ]
+}

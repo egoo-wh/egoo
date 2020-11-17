@@ -10,9 +10,7 @@ egoo命令行。包含一些提高工作效率的工具。
 
 ## 使用
 - [发布功能](#发布)
-- [分离功能](#分离)(beta)
-- [TinyPNG图片压缩](#tinypng批量图片压缩)(beta)
-- [图片尺寸偶数化](#图片尺寸偶数化)(beta)
+- [分离功能](#分离)
 
 ## 发布
 将文件发布到内网或者外网。  
@@ -61,24 +59,18 @@ source为`E:\workspace\201503\互娱\sq26659`，可以。
 为了简化图片分离操作，实现此功能。  
 分离工具。做下列几件事情：  
 1. 复制并重命名（项目名后面加“分离后”）整个包；
-2. 对html文件(.htm,.html,.shtml,.inc)和css文件内满足[特定规则的内容](#分离规则)。
-	- 分离图片。将ossweb-img/images的相对地址转换成cdn地址  
-	- 去除协议。删除url中的 **http(s):** 部分
+2. 分离图片。将html文件(.htm,.html,.shtml,.inc)和css文件内的相对地址（ossweb-img/images）转换成cdn地址。[查看分离规则](#分离规则)。 
+3. 去除协议（可选）。删除url中的 **http(s):** 部分。不包含嵌入data uri(data:image/...)内的http(s):部分
 
-#### 分离规则
-- css样式的url()，不包含嵌入uri(data:image/...)内的http(s):部分
-- html标签href属性值。如下列标签：
-	- `<a href .. ></a>`
-	- `<link href ... >`
-	- `<base href ... >`
-	- ...
-- html标签src属性值。如下列标签：
-	- `<video src ... ></video>`
-	- `<audio src ... ></audio>`
-	- `<script src ... ></script>`
-	- `<video><source src ... /></video>`
-	- `<iframe src ... ></iframe>`
-	- ...
+### 分离规则
+#### 分离html
+只会处理html标签的**href|src|poster**属性。
+注意
+* 1. 不会处理懒加载等场景下添加的自定义属性。如<div data-lazy=url />
+* 2. 不会处理<form action=url>、<button formaction=url>、<head profile=url>等
+
+#### 分离样式
+- css样式的url()部分
 
 所以，该功能将创建一个分离后的版本。
 ```

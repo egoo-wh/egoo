@@ -1,12 +1,16 @@
 # project ignores
-
+.vscode
 node_modules
 *.DS_Store
 npm-debug.log
 data
-server
-tests
-_data
-__temp
-__unused_files
-project
+coverage
+demo
+src/decryption.ts
+src/encryption.ts
+.egookey
+static/server_config.json
+static/server_config_origin.json
+bin
+__test
+__lib
