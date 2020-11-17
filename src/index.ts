@@ -8,6 +8,7 @@ import * as colors from 'ansi-colors';
 import Handler from "./Handler";
 import CLI from './CLI';
 import { setAppRoot } from "./utils";
+let pkg = require('../package.json');
 
 setAppRoot(path.join(__dirname, '..'))
 
@@ -15,6 +16,7 @@ let handler: Handler;
 
 yargs
   .scriptName('egoo')
+  .version(pkg.version)
   /*
   publish
   */
