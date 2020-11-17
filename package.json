@@ -1,6 +1,6 @@
 {
   "name": "egoo",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Egoo CLI. includes several tools to improve work efficiency.",
   "keywords": [
     "egoo",
@@ -17,7 +17,6 @@
   "preferGlobal": true,
   "files": [
     "README.md",
-    "bin/egoo",
     "lib/",
     "data/"
   ],
@@ -26,8 +25,6 @@
   },
   "scripts": {
     "test": "npx jest",
-    "dev-fenli": "npx ts-node src/index.ts fenli -a ylzt /Users/pata/Documents/QQDownloads/a20201110unifiedm",
-    "dev-pub": "npx ts-node src/index.ts pub --config-forcereload /Users/pata/Documents/QQDownloads/a20201110unifiedm",
     "build": "rimraf lib && npx tsc -p tsconfig.json"
   },
   "dependencies": {

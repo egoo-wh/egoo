@@ -100,78 +100,10 @@ source | 要分离的文件路径
 
 ---
 
-## 图片尺寸偶数化
-将图片尺寸偶数化，如255x105的图片，将会被调整至256x106。因为京东规范要求[图片尺寸严禁使用奇数值](https://jdc.jd.com/cp/#1-尺寸-单位)，故创建本工具。
-针对PNG图片，偶数化通过增加1px的透明边实现；JPG图片则直接向上拉伸为偶数。
-### 使用前必读
-使用之前，必须安装[GraphicsMagick](http://www.graphicsmagick.org/)，
-[GraphicsMagick下载地址](ftp://ftp.graphicsmagick.org/pub/GraphicsMagick/windows/GraphicsMagick-1.3.26-Q16-win64-dll.exe)。
-
-```
-egoo ie/imgeven [source]
-```
-### 参数：
-Param | Description
------ | ------------
-source | 要调整的文件路径。可以是文件或目录。如果是目录，则调整目录下所有图片。
-
-例如：
-```
-egoo ie E:\workspace\a20170817wfgx\ossweb-img
-```
-上述命令表示调整该目录下所有图片。
-
-### 注意事项
-1. 只能调整JPG，PNG格式的图片。
-2. 调整都是向上调整。如157x155会调整成158x156。
-3. beta阶段，谨慎使用。
-
----
-
-## TinyPNG批量图片压缩
-压缩PNG图片。
-因为tiny压缩图片非常繁琐。需要经过好几个步骤：
-1. 打开tinypng.com
-2. 将文件拖入
-3. 等待压缩完成，下载文件
-4. 将下载文件复制到项目内
-
-步骤比较繁琐，所以实现这个功能来简化操作。
-### 使用前必读
-使用之前，需前往[TinyPNG开发者页面](https://tinypng.com/developers)注册，获取免费的API KEY。获取步骤如下：
-![注册][tinypng_reg]
-注册完成之后，在如下页面会获取API KEY。  
-![获取][tinypng_key]
-这个KEY，会在初次使用本功能时，被要求填入。
-```
-egoo tiny/tinypng [source]
-```
-### 参数：
-Param | Description
------ | ------------
-source | 要压缩的文件路径。可以是文件或目录。如果是目录，则压缩目录下所有PNG图片。
-
-例如：
-```
-egoo tiny E:\workspace\a20170817wfgx\ossweb-img
-```
-上述命令表示压缩该目录下所有图片。
-
-### 注意事项
-1. 根据TinyPNG官网信息显示：每个免费的API KEY，每月只有500次的压缩机会，所以，请酌情使用。
-2. beta阶段，谨慎使用。
-
---- 
-
 ### 关于Windows命令行(cmd)使用技巧：
 
 1. 粘贴。（鼠标右键--粘贴）
 2. 复制。（鼠标右键--标记--选择文本）
 3. 文件路径可直接将文件拖入cmd来生成。
-
-
-[site_in_blacklist]:https://github.com/egoo-wh/egoo/raw/master/demo/site_in_blacklist.png
-[tinypng_reg]:https://github.com/egoo-wh/egoo/raw/master/demo/tinypng_reg.png
-[tinypng_key]:https://github.com/egoo-wh/egoo/raw/master/demo/tinypng_key.png
 
 
