@@ -1,3 +1,5 @@
+// https://github.com/mcollina/split2/blob/master/index.js
+
 import { Transform, TransformOptions } from 'readable-stream';
 
 export default function split(matcher?, mapper?, options?) {

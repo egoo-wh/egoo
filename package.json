@@ -44,6 +44,7 @@
     "readable-stream": "^3.6.0",
     "ssh2": "^0.8.9",
     "tapable": "^2.0.0",
+    "tslib": "^2.0.3",
     "yargs": "^15.4.1"
   },
   "devDependencies": {
@@ -62,7 +63,6 @@
     "rimraf": "^3.0.2",
     "ts-jest": "^26.1.0",
     "ts-node": "^8.10.2",
-    "tslib": "^2.0.3",
     "typescript": "^3.9.3"
   },
   "engines": {

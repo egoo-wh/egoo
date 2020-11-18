@@ -249,7 +249,7 @@ export default class Uploader extends Handler {
         // 根据patch的返回值，有值则加入上传队列
         const newQueryInfo = await this.hooks.query.promise(qinfo, info);
         if (newQueryInfo) {
-          console.log(newQueryInfo)
+          // console.log(newQueryInfo)
           qinfo = newQueryInfo
           this.querys.push(qinfo);
         }

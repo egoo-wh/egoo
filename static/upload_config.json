@@ -21,7 +21,7 @@
   },
   "injected": {
     "csp": "script-src 'self' 'unsafe-inline' *.egooidea.com vm.gtimg.cn ossweb-img.qq.com/images/js/ game.gtimg.cn/images/js/2018foot/;",
-    "jspath": "http://cli.egooidea.com/injected/injected.js"
+    "jspath": "//cli.egooidea.com/injected/injected.js"
   },
   "replacements": [
     {
