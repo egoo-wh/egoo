@@ -19,14 +19,14 @@ egoo命令行。包含一些提高工作效率的工具。
 ```
 egoo pub/publish [source] [options]
 ```
-### 参数：
-Param | Description
+### 参数说明：
+参数 | 说明
 ----- | ------------
 source | 要上传的文件路径
 
-### 选项：
+### 选项说明：
 
- Options  | Description
+ 选项  | 说明
 ------------- | -------------
 --git | 上传到Gitee Pages。等同于--mode git。因为发布的外网域名，经常被腾讯管家封，所以，考虑使用代码托管平台降低被封风险，并且也能降低启用新域名的时间金钱成本。  
 --local | 等同于--mode local。上传到内网，方便没有web服务器环境的同学预览调试。  
@@ -79,14 +79,14 @@ source为`E:\workspace\201503\互娱\sq26659`，可以。
 ```
 egoo fenli [source] [options]
 ```
-### 参数：
-Param | Description
+### 参数说明：
+参数 | 说明
 ----- | ------------
 source | 要分离的文件路径
 
-### 选项：
+### 选项说明：
 
- Options  | Description
+ 选项  | 说明
 ------------- | -------------
 -u --url  | 指定分离路径。如（//game.gtimg.cn/images/dnf/cp/）
 -a --aliases | 项目所属产品的别名，根据产品找到对应分离路径。如地下城与勇士为dnf，QQ飞车为speed，王者荣耀为pvp，一般为产品官网缩写。具体别名请查看(https://fenli.egooidea.com/) ，如果别名未找到，请添加或使用-u选项。
