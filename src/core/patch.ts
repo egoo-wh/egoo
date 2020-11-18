@@ -81,7 +81,7 @@ export class PatchInstaller {
         // 全部丢给管道操作
         return await FileUtil.modify(info.src, info.dest, streams);
       } catch (error) {
-        
+        return Promise.reject(error);
       }
     }, Promise.resolve())
   }

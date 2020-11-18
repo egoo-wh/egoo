@@ -28,7 +28,7 @@ export default class FenliPatch extends Patch {
 
   run(info: PatchInfo) {
     if (!this.fenliPath) {
-      throw new Error('fenliPath is empty')
+      throw new Error('分离地址为空，请检查。')
     }
     const ext = path.extname(info.src);
     const isCssFile = ['.css'].indexOf(ext) >= 0;

@@ -1,6 +1,6 @@
 // https://github.com/mcollina/split2/blob/master/index.js
 
-import { Transform, TransformOptions } from 'readable-stream';
+import { Transform } from 'readable-stream';
 
 export default function split(matcher?, mapper?, options?) {
   function noop(incoming) {
@@ -60,9 +60,25 @@ export default function split(matcher?, mapper?, options?) {
     cb()
   }
 
+  function flush(this, cb) {
+    // forward any gibberish left in there
+    // this[kLast] += this[kDecoder].end()
+
+    if (kLast) {
+      try {
+        this.push(mapper(kLast))
+      } catch (error) {
+        return cb(error)
+      }
+    }
+
+    cb()
+  }
+
 
   options = Object.assign({}, options)
   options.transform = transform
+  options.flush = flush
   options.readableObjectMode = true
 
   return new Transform(options);

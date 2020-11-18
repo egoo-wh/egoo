@@ -87,6 +87,7 @@ source | 要分离的文件路径
 ------------- | -------------
 -u --url  | 指定分离路径。如（//game.gtimg.cn/images/dnf/cp/）
 -a --aliases | 项目所属产品的别名，根据产品找到对应分离路径。如地下城与勇士为dnf，QQ飞车为speed，王者荣耀为pvp，一般为产品官网缩写。具体别名请查看(https://fenli.egooidea.com/) ，如果别名未找到，请添加或使用-u选项。
+--forcehttps | 强制https，会在分离地址前加上https:，同时，http: 地址会发出错误提示。-a dnf会默认开启强制https
 
 例如：
 - `egoo fenli E:\workspace\DNF-元宵许愿\a20180108wish -a DNF`

@@ -21,6 +21,8 @@ export default class InjectedFilePatch extends Patch {
     return (line: string): string => {
       const injectedJsFilePath = ConfCenter.getInstance().get('upload_config', 'injected.jspath');
       const injectedCSP = ConfCenter.getInstance().get('upload_config', 'injected.csp');
+      let blockScripts = ConfCenter.getInstance().get('upload_config', 'injected.blockScripts');
+      blockScripts = JSON.stringify(blockScripts);
       let result;
       if (injectedCSP) {
         result = line.replace('<head>', `<head>\n<meta http-equiv="Content-Security-Policy" content="${injectedCSP}">`)  
@@ -29,7 +31,7 @@ export default class InjectedFilePatch extends Patch {
       }
 
       if (injectedJsFilePath) {
-        result = result.replace('</head>', `<!-- 预览专用js --><script src="${injectedJsFilePath}"></script>\n</head>`)
+        result = result.replace('</head>', `<!-- 预览专用js -->\n<script src="${injectedJsFilePath}"></script>\n<script>\nblockScripts(${blockScripts})</script>\n</head>`)
       }
       
       return result

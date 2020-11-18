@@ -20,8 +20,14 @@
     }
   },
   "injected": {
-    "csp": "script-src 'self' 'unsafe-inline' *.egooidea.com vm.gtimg.cn ossweb-img.qq.com/images/js/ game.gtimg.cn/images/js/2018foot/;",
-    "jspath": "//cli.egooidea.com/injected/injected.js"
+    "csp": "",
+    "csp-ignore": "script-src 'self' 'unsafe-inline' *.egooidea.com vm.gtimg.cn apps.game.qq.com ossweb-img.qq.com/images/ game.gtimg.cn/images/",
+    "jspath": "//cli.egooidea.com/injected/injected.js",
+    "blockScripts": [
+      "//ossweb-img.qq.com/images/js/mobile_bundle/biz/login.js",
+      "//ossweb-img.qq.com/images/js/milo_bundle/biz/login.js",
+      "//game.gtimg.cn/images/js/eas/eas.js"
+    ]
   },
   "replacements": [
     {

@@ -99,8 +99,7 @@ yargs
         type: 'string'
       },
       'forcehttps': {
-        alias: 'h',
-        describe: '强制HTTPS，分离地址会强制带上https',
+        describe: '强制https，会在分离地址前加上https:，同时，http: 地址会发出错误提示',
         type: 'boolean'
       }
     },

@@ -14,8 +14,8 @@ export default class Replacer {
 
   /**
    * 
-   * @param {Booleam} noFilter 是否过滤腾讯登录组件和统计代码
-   * @param  {[Boolean]} shtmlReplaced 是否替换shtml include模块
+   * @param uploader 
+   * @param patchs 替换补丁
    */
   constructor(uploader: Uploader, patchs: Patch[]) {
     uploader.hooks.afterInit.tap('ReplacerPlugin', () => {
@@ -43,7 +43,9 @@ export default class Replacer {
     if (tempsPath) {
       let bn = path.basename(filePath);
       let ext = path.extname(bn);
-      if (path.basename(filePath, ext) == 'index') { uploadInfo.visitor = bn; }
+      if (path.basename(filePath, ext) == 'index' && ['.html', '.shtml', '.htm'].indexOf(ext) >= 0) {
+        uploadInfo.visitor = bn;
+      }
 
       let tempFilePath: string = tempsPath[0];
       log(logMsg(`modify ${tempFilePath}`, 'STEP'));

@@ -25,6 +25,7 @@
 import * as path from 'path';
 import Handler from '../Handler';
 import * as fetch from 'node-fetch';
+import * as _ from 'lodash';
 import { walkFile, cp } from '../utils/asyncs';
 import { PatchInstaller } from "../core/patch";
 import DeleteProtocolPatch from './patchs/DeleteProtocolPatch';
@@ -72,9 +73,10 @@ export default class Fenli extends Handler {
 
   async init(aliases, url) {
     const fenliPath = await this.getFenliPath(aliases, url)
-    this.fenliPath = fenliPath;
+    this.fenliPath = _.trim(fenliPath);
     if (this.forceHttps) {
-      this.fenliPath = this.fenliPath.replace(/http(s)?:/, 'https:')
+      this.fenliPath = this.fenliPath.replace(/http(s)?:/, '')
+      this.fenliPath = `https:${this.fenliPath}`;
     }
     this.patchInstaller = new PatchInstaller();
     const fp = new FenliPatch();

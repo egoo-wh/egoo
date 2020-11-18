@@ -68,31 +68,35 @@ export default class DeleteProtocolPatch extends Patch {
   }
 
   deleteProtocolInStyle(chunk) {
-    chunk = chunk.replace(CSS_URL_HTTP_REG, (match) => {
-      if (this.warningWhenNotHttps) {
-        if (match.search('http') >= 0) {
-          throw new Error(`强制Https时发现HTTP，请检查。`)
-        }
-        return match;
-      } else {
+    if (this.warningWhenNotHttps) {
+      this.warningWhenFindHttp(chunk);
+      return chunk;
+    } else {
+      chunk = chunk.replace(CSS_URL_HTTP_REG, (match) => {
         return match ? match.replace(/http(s)?\:/, '') : match;
-      }
-      
-    })
-    return chunk
+      })
+      return chunk
+    }
   }
 
   deleteProtocolInHTMLTag(chunk){
-    chunk = chunk.replace(HTML_TAG_HTTP_REG, (match) => {
-      if (this.warningWhenNotHttps) {
-        if (match.search('http') >= 0) {
-          throw new Error(`强制Https时发现HTTP，请检查。`)
-        }
-        return match;
-      } else {
+    if (this.warningWhenNotHttps) {
+      this.warningWhenFindHttp(chunk);
+      return chunk;
+    } else {
+      chunk = chunk.replace(HTML_TAG_HTTP_REG, (match) => {
         return match ? match.replace(/http(s)?\:/, '') : match
-      }
-    })
+      })
+    }
+    
     return chunk
+  }
+
+  warningWhenFindHttp(chunk) {
+    const matches = chunk.match(HTML_TAG_HTTP_REG);
+    const match = matches ? matches[0] : '';
+    if (match && match.search('http:') >= 0) {
+      throw new Error(`强制https时发现http，请检查 ${chunk} 后重新分离。`)
+    }
   }
 }

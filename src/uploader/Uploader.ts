@@ -142,10 +142,10 @@ export default class Uploader extends Handler {
     }
 
     let patchs: Patch[] = [];
-    if (uploadMode.replaced || !ignores['replaced']) {
+    if (uploadMode.replaced && !ignores['replaced']) {
       patchs.push(new ReplacementPatch())
     }
-    if (uploadMode.injected || !ignores['injected']) {
+    if (uploadMode.injected && !ignores['injected']) {
       patchs.push(new InjectedFilePatch())
     }
     // if (uploadMode.ssi || !ignores['ssi']) {
