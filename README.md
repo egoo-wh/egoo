@@ -2,10 +2,10 @@
 egoo命令行。包含一些提高工作效率的工具。
 
 ## 安装
-1. 安装[Node.js](https://nodejs.org/)(v8.0+)。如已有node环境则跳过此步。
+1. 安装[Node.js](https://nodejs.org/)(v10.0+)。如已有node环境则跳过此步。
 2. 安装[Git](https://git-scm.com/)。如已有Git环境则跳过此步。
 3. 安装 **egoo** 命令行工具。`npm i -g https://github.com/egoo-wh/egoo`。更新 **egoo** 也使用此命令。
-4. 输入`egoo -v`，出现版本信息（类似`1.1.2`），表明 **egoo** 安装成功。
+4. 输入`egoo -v`，出现版本信息（类似`2.0.0`），表明 **egoo** 安装成功。
 5. 如果更新有问题，则使用`npm rm egoo -g`。先卸载，然后重复步骤3再次安装。
 
 ## 使用
@@ -28,16 +28,19 @@ source | 要上传的文件路径
 
  Options  | Description
 ------------- | -------------
--g --git | 使用Git方式发布。因为发布的外网域名，经常被腾讯管家封，所以，考虑使用代码托管平台降低被封风险，并且也能降低启用新域名的时间金钱成本。  
---nofilter | 不过滤敏感代码。默认过滤敏感代码（统计代码，登录组件等）
---nocache | 无需缓存，全量覆盖。当不指定这一选项时，发布操作有缓存功能，即如果服务器已经存在和本地相同的文件，则该文件不会再次上传，节省上传时间。指定这一选项后，则会忽略缓存，全部重新上传。
---remotepath | 指定服务器目录地址，默认不需要指定。
+--git | 上传到Gitee Pages。等同于--mode git。因为发布的外网域名，经常被腾讯管家封，所以，考虑使用代码托管平台降低被封风险，并且也能降低启用新域名的时间金钱成本。  
+--local | 等同于--mode local。上传到内网，方便没有web服务器环境的同学预览调试。  
+--mode | 上传的模式，可以是git/web/local，默认为web。web为阿里云服务器，local为内网，git为Gitee Pages。  
+--ignore-cache | 忽略缓存，全量上传  
+--config-forcereload | 重新加载配置文件
+--ignore-injected | 忽略文件注入
+--ignore-replaced | 忽略文本替换
 
 例如：
 ```
 egoo pub E:\workspace\zoom_bug
 egoo pub E:\workspace\zoom_bug --git
-egoo pub E:\workspace\zoom_bug --git --nocache
+egoo pub E:\workspace\zoom_bug --git --ignore-cache
 ```
 上述命令表示发布zoom_bug文件夹。  
 命令行出现**publish success.**，表示发布成功。 **preview url**表示预览地址。
