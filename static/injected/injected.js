@@ -29,16 +29,18 @@ var _need = function (modules, callback) {
 Object.defineProperty(window, 'need', { configurable: true, get: function () { return _need }, set: function (v) { } });
 
 // block scripts
-function blockScripts(urls){
+function blockScriptsTag(urls){
   function blockScript(urls) {
     const scripts = Array.from(document.getElementsByTagName("SCRIPT"));
     if (scripts.length > 0) {
       scripts.forEach(function(script) {
-        urls.forEach(function(url) {
-          if (script.src.indexOf(url) >= 0) {
-            script.parentNode.removeChild(script);
-          }
-        })
+        if (script.src) {
+          urls.forEach(function (url) {
+            if (script.src.indexOf(url) >= 0) {
+              script.parentNode.removeChild(script);
+            }
+          })
+        }
       })
     }
   }
@@ -49,8 +51,37 @@ function blockScripts(urls){
       if (addedNodes && addedNodes.some(function(n) { return n.nodeName === 'SCRIPT'})) {
         blockScript(urls);
       }
-      // observer.disconnect();
     }
   });
   observer.observe(document, { childList: true, subtree: true });
+
+  blockScript(urls)
+}
+
+function blockScriptsOnAir(urls) {
+  var _setAttribtue = HTMLScriptElement.prototype.setAttribute;
+  Object.defineProperty(HTMLScriptElement.prototype, 'src', {
+    set: function (v) {
+      const isBlocked = urls.find(function (url) { return v.indexOf(url) >= 0 })
+      if (!isBlocked) {
+        _setAttribtue.apply(this, ['src', v]);
+      }
+    }
+  });
+  
+  HTMLScriptElement.prototype.setAttribute = function(name, v) {
+    if (this.tagName.toLowerCase() === 'script' && name === 'src') {
+      var isBlocked = urls.find(function (url) { return v.indexOf(url) >= 0 })
+      if (!isBlocked) {
+        _setAttribtue.apply(this, [name, v]);
+      }
+    } else {
+      _setAttribtue.apply(this, [name, v])
+    }
+  }
+}
+
+function blockScripts(urls) {
+  // blockScriptsTag(urls);
+  blockScriptsOnAir(urls)
 }

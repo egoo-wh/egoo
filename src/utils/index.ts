@@ -116,3 +116,15 @@ export function isPromise(obj) {
 export function isUnixHiddenPath(path) {
   return (/(^|\/)\.[^\/\.]/g).test(path);
 };
+
+
+export function convertToFileExt(extKey) {
+  switch (extKey) {
+    case 'html':
+      return ['.shtml', '.html', 'htm']
+      break;
+    default:
+      return [];
+      break;
+  }
+}

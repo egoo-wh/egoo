@@ -26,7 +26,13 @@
     "blockScripts": [
       "//ossweb-img.qq.com/images/js/mobile_bundle/biz/login.js",
       "//ossweb-img.qq.com/images/js/milo_bundle/biz/login.js",
-      "//game.gtimg.cn/images/js/eas/eas.js"
+      "//ossweb-img.qq.com/images/js/mobile_bundle/biz/roleselector.js",
+      "//ossweb-img.qq.com/images/js/milo_bundle/biz/roleselector.js",
+      "//game.gtimg.cn/images/js/eas/eas.js",
+      "//ossweb-img.qq.com/images/js/eas/eas.js",
+      "//ossweb-img.qq.com/images/js/mobile_bundle/biz/frontmonitor.js",
+      "//ossweb-img.qq.com/images/js/milo_config_server/milo_monitor_alldomain.js",
+      "//cdn-go.cn/aegis/aegis-sdk/latest/aegis.global.min.js"
     ]
   },
   "replacements": [
@@ -40,6 +46,14 @@
         {
           "pattern": "腾讯游戏",
           "replace": ""
+        },
+        {
+          "pattern": "英雄联盟官方网站",
+          "replace": ""
+        },
+        {
+          "pattern": "(<script.*?src=[\"'](http(s)?:)?//js.aq.qq.com/js/aq_common.js[\"'].*?></script>)",
+          "replace": "<!-- 预览专用注释 --><!-- $1 -->"
         }
       ]
     }

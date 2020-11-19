@@ -1,6 +1,7 @@
 import * as path from 'path'
 import { ConfCenter } from '../../core/ConfCenter';
 import { Patch, PatchInfo } from '../../core/patch'
+import { convertToFileExt } from '../../utils/index'
 
 export default class ReplacementPatch extends Patch {
   constructor(){
@@ -28,10 +29,17 @@ export default class ReplacementPatch extends Patch {
   _replace(replacements, ext: string) {
     return (line: string): string => {
       return replacements.reduce((l, r) => {
-        if (ext.indexOf(r.ext) >= 0 && r.rules && r.rules.length > 0) {
+        const fileExts = convertToFileExt(r.ext);
+        if (fileExts.indexOf(ext) >= 0 && r.rules && r.rules.length > 0) {
           return r.rules.reduce((v, rule) => {
             try {
-              v = v.replace(rule.pattern, rule.replace)
+              let pattern = rule['pattern'];
+              if (pattern) {
+                let regexp = new RegExp(pattern, 'g');
+                // don't use regex.test(res).
+                // @see http://stackoverflow.com/questions/1520800/why-regexp-with-global-flag-in-javascript-give-wrong-results
+                v = v.replace(regexp, rule.replace)
+              }
             } catch (error) {
               throw error;
             }
