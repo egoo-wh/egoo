@@ -45,6 +45,12 @@ export async function walkFile<T extends WalkFileHandler>(src: string, handler: 
       }
     });
     return Promise.all(all);
+    // return files.reduce(async (promise, file) => {
+    //   await promise
+    //   if (!isUnixHiddenPath(file)) {
+    //     return walkFile(path.join(src, file), handler);
+    //   }
+    // }, Promise.resolve())
   } else {
     let handlerReturn = handler && handler.call(null, { filePath: src, type: "file" } as T);
     return isPromise(handlerReturn) ? handlerReturn : Promise.resolve(handlerReturn);

@@ -22,7 +22,7 @@ export default class ReplacementPatch extends Patch {
       const ext = path.extname(info.src);
       return this._replace(replacements, ext);
     } else {
-      throw new Error('请检查ConfCenter replacements配置，应该为数组')
+      throw new Error('请检查upload_config replacements配置，应该为数组')
     }
   }
   _replace(replacements, ext: string) {

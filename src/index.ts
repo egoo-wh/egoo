@@ -8,6 +8,8 @@ import * as colors from 'ansi-colors';
 import Handler from "./Handler";
 import CLI from './CLI';
 import { setAppRoot } from "./utils";
+import Fenli from './fenli/Fenli'
+import Uploader from './uploader/Uploader';
 
 setAppRoot(path.join(__dirname, '..'))
 
@@ -75,9 +77,11 @@ yargs
           ignores[key.replace('ignore-', '')] = argv[key];
         }
       }
-      const sources = [source].concat(others)
+      const sources = [source as string].concat(others as string[])
       const configForceReload = argv['config-forcereload'];
-      handler = await CLI.publish(sources, mode, ignores, configForceReload);
+      const uploader: Uploader = new Uploader();
+      handler = uploader;
+      await uploader.run(sources, mode, ignores, configForceReload);
     }
 
   })
@@ -105,8 +109,14 @@ yargs
     },
     handler: async (argv) => {
       const { source, others, url, aliases, forcehttps } = argv;
-      const sources = [source].concat(others)
-      handler = await CLI.fenli(sources, { url, aliases, forcehttps });
+      const sources = [source as string].concat(others as string[])
+      let forceHttps: boolean = forcehttps as boolean;
+      if ((aliases as string).toLowerCase() == 'dnf') {
+        forceHttps = true;
+      }
+      const fl = new Fenli(sources, forceHttps);
+      handler = fl;
+      await fl.run(aliases, url);
     }
   })
   .demandCommand(1, '请指定命令')
@@ -114,8 +124,11 @@ yargs
     process.exit();
   })
   .fail((msg: string, err: Error) => {
-    console.log(msg)
-    console.log(err)
+    if (handler) {
+      console.log('shutdown');
+      handler.emit('shutdown');
+    };
+    process.exit(1);
   })
   .help()
   .argv;
@@ -126,6 +139,10 @@ process.on('uncaughtException', function (err) {
   // handle the error safely
   console.error(err)
   console.log(colors.red(err.toString()))
+  if (handler) {
+    console.log('shutdown');
+    handler.emit('shutdown');
+  };
 })
 // shutdown.  ctrl-c强制退出
 process.on("SIGINT", function () {

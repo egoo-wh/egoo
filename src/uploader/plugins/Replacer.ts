@@ -26,28 +26,28 @@ export default class Replacer {
       return this.onQueryFile(queryInfo, uploadInfo)
     })
     uploader.hooks.afterQuery.tapPromise('ReplacerPlugin', () => {
-      return this.patchInstaller.run();
+      return this.patchInstaller.runAll();
     })
     uploader.hooks.afterUpload.tapPromise('ReplacerPlugin', () => {
       log(logMsg('clear', 'STEP'));
       return this.patchInstaller.clear();
     })
     uploader.hooks.dispose.tapPromise('ReplacerPlugin', () => {
+      log(logMsg('clear', 'STEP'));
       return this.patchInstaller.clear();
     })
   }
 
   async onQueryFile(queryInfo: QueryInfo, uploadInfo: UploadInfo): Promise<QueryInfo | undefined>{
     const filePath = queryInfo.src
-    const tempsPath = this.patchInstaller.detectAndAdd(filePath);
-    if (tempsPath) {
+    const pi = this.patchInstaller.detectAndAdd(filePath);
+    if (pi) {
       let bn = path.basename(filePath);
       let ext = path.extname(bn);
       if (path.basename(filePath, ext) == 'index' && ['.html', '.shtml', '.htm'].indexOf(ext) >= 0) {
         uploadInfo.visitor = bn;
       }
-
-      let tempFilePath: string = tempsPath[0];
+      let tempFilePath = pi.dest;
       log(logMsg(`modify ${tempFilePath}`, 'STEP'));
       return new QueryInfo(tempFilePath, queryInfo.dest, queryInfo.type);
     }

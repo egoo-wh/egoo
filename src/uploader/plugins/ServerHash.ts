@@ -5,6 +5,7 @@ import * as util from 'util';
 import Uploader, { UploadInfo, QueryInfo } from "../Uploader";
 import { logger, logMsg, serverPathJoin } from '../../utils';
 import { sfcall } from '../../utils/asyncs';
+import { SFTPWrapper } from 'ssh2';
 
 const log = logger('ServerHash');
 
@@ -31,34 +32,24 @@ const hashCfg = {
  * 6.hash文件上传至服务器
  * 7.删除本地hash文件
  */
+interface HashFileInfo {
+  assets: any, // 文件内容  
+  saved: boolean,  // 文件是否保存
+  filePath: string, // 文件的本地路径
+  serverPath: string // 文件的服务器路径
+}
 export default class ServerHash {
+  // hash文件信息 source 为UploadInfo.source
+  private fileInfos: { [source: string]: HashFileInfo } = {};
 
-  private noCache: boolean = false;
-  private hashLoaded: boolean = false;
-  private hashAssets: any;
-  private hashFileSaved: boolean = false;
-  private hashFilePath: string;
-  private hashServerPath: string;
-
-	/**
-	 * 是否不使用缓存
-	 * @param  {Boolean} noCache [description]
-	 * @return {[type]}          [description]
-	 */
-  constructor(uploader:Uploader, noCache = false) {
-    this.noCache = noCache;
-    // this.hashLoaded = false;
-    // this.hashFileSaved = false;
-    // this.hashAssets = undefined;
-    // this.hashFilePath = undefined;
-    // this.hashServerPath = undefined;
+  constructor(uploader:Uploader) {
     uploader.hooks.beforeQuery.tapPromise('ServerHashPlugin', (uinfo) => {
       return this.beforeBuildQuery(uploader, uinfo);
     })
     uploader.hooks.afterQuery.tapPromise('ServerHashPlugin', (uinfo) => {
       return this.afterBuildQuery(uploader, uinfo);
     })
-    uploader.hooks.afterUpload.tapPromise('ServerHashPlugin', (uinfo) => {
+    uploader.hooks.afterUpload.tapPromise('ServerHashPlugin', () => {
       return this.afterUploadQuery();
     })
     uploader.hooks.query.tapPromise('ServerHashPlugin', (queryInfo: QueryInfo, uploadInfo: UploadInfo) => {
@@ -74,7 +65,7 @@ export default class ServerHash {
    * @param uploader 
    * @param uinfo 
    */
-  async beforeBuildQuery(uploader: Uploader, uinfo) {
+  async beforeBuildQuery(uploader: Uploader, uinfo: UploadInfo) {
     await this.include(uploader.sftp, uinfo.source, uinfo.remote);
   }
 
@@ -83,10 +74,11 @@ export default class ServerHash {
    * @param uploader 
    * @param uinfo 
    */
-  async afterBuildQuery(uploader: Uploader, uinfo) {
-    const saved = await this.save();
+  async afterBuildQuery(uploader: Uploader, uinfo: UploadInfo) {
+    const saved = await this.save(uinfo);
     if (saved) {
-      uploader.pushQuery(this.hashFilePath, this.hashServerPath, 'file');
+      const fileInfo = this.fileInfos[uinfo.source]
+      uploader.pushQuery(fileInfo.filePath, fileInfo.serverPath, 'file');
     }
   }
 
@@ -101,7 +93,7 @@ export default class ServerHash {
     const filePath = queryInfo.src;
     if (this.isNotHashFile(filePath)) {
       // hash compare.对比文件hash，只上传hash值不同的文件。
-      const isEqual = await this.compare(filePath);
+      const isEqual = await this.compare(filePath, uploadInfo);
       if (!isEqual) {
         return queryInfo
       } else {
@@ -111,19 +103,23 @@ export default class ServerHash {
   }
 
   // 从服务器加载并载入hash文件。
-  include(sftp, localPath, remotePath) {
-    if (this.noCache) { return Promise.resolve(); }
-    this.hashFilePath = path.join(localPath, hashCfg.file);
-    this.hashServerPath = serverPathJoin(remotePath, hashCfg.file);
+  include(sftp: SFTPWrapper, localPath: string, remotePath: string) {
+    const fileInfo:HashFileInfo = {
+      filePath: path.join(localPath, hashCfg.file),
+      serverPath: serverPathJoin(remotePath, hashCfg.file),
+      assets: null,
+      saved: false
+    }
+    this.fileInfos[localPath] = fileInfo;
     // 1.load server hash file
-    return sfcall(sftp.fastGet, sftp, true, this.hashServerPath, this.hashFilePath).then((fileExist) => {
+    return sfcall(sftp.fastGet, sftp, true, fileInfo.serverPath, fileInfo.filePath).then((fileExist) => {
       // 2.include it if file exists.
       if (fileExist) {
         log(logMsg('server hash file loaded.', 'STEP'));
         // 转换成绝对路径，require，不然，相对路径会导致报错。
-        let absoluteHashFilePath = path.resolve(this.hashFilePath);
+        let absoluteHashFilePath = path.resolve(fileInfo.filePath);
         try {
-          this.hashAssets = require(absoluteHashFilePath) || {};
+          fileInfo.assets = require(absoluteHashFilePath) || {};
           log(logMsg('include hash file.', 'STEP'));
         } catch (err) {
           Promise.reject(new Error('require hash file error.'))
@@ -137,30 +133,34 @@ export default class ServerHash {
   }
 
   // 保存hash文件
-  save() {
-    if (this.noCache || !this.hashAssets) { return Promise.resolve(false); }
-    return fswriteFile(this.hashFilePath, JSON.stringify(this.hashAssets)).then(() => {
-      this.hashFileSaved = true;
-      log(logMsg(`save hash file(${hashCfg.file}).`, 'STEP'));
-      return Promise.resolve(true);
-    });
+  save(uinfo) {
+    const fileInfo = this.fileInfos[uinfo.source];
+    if (fileInfo && fileInfo.assets) {
+      return fswriteFile(fileInfo.filePath, JSON.stringify(fileInfo.assets)).then(() => {
+        fileInfo.saved = true;
+        log(logMsg(`save hash file(${fileInfo.filePath}).`, 'STEP'));
+        return Promise.resolve(true);
+      });
+    } else {
+      return Promise.resolve(false);
+    }
   }
 
   // 清除hash文件
   clear() {
-    if (this.noCache) { return Promise.resolve(); }
-    if (this.hashFileSaved && this.hashFilePath) {
-      log(logMsg('remove hash file.', 'STEP'));
-      return fsunlink(this.hashFilePath);
-    } else {
-      return Promise.resolve();
-    }
+    log(logMsg('remove hash files.', 'STEP'));
+    const all = Object.values(this.fileInfos).map(info => {
+      if (info.saved && info.filePath) {
+        return fsunlink(info.filePath);
+      } else {
+        return Promise.resolve();
+      }
+    })
+    return Promise.all(all)
   }
   // 比较文件hash值
-  compare(file) {
-    if (this.noCache) {
-      return Promise.resolve(false)
-    }
+  compare(file, uinfo) {
+    const fileInfo = this.fileInfos[uinfo.source];
     return fsreadFile(file).then((contents) => {
       // Initialize results object
       let hashValue = '';
@@ -168,8 +168,8 @@ export default class ServerHash {
       let absoluteFilePath = path.resolve(file);
 
       // If file was already hashed, get old hash
-      if (this.hashAssets && this.hashAssets[absoluteFilePath]) {
-        hashValue = this.hashAssets[absoluteFilePath];
+      if (fileInfo.assets && fileInfo.assets[absoluteFilePath]) {
+        hashValue = fileInfo.assets[absoluteFilePath];
       }
       // Generate hash from content
       let newHashValue = this.generateHash(contents);
@@ -177,12 +177,12 @@ export default class ServerHash {
       // If hash was generated
       if (hashValue !== newHashValue) {
         hashValue = newHashValue;
-        if (!this.hashAssets) {
-          this.hashAssets = {};
+        if (!fileInfo.assets) {
+          fileInfo.assets = {};
         };
 
         // Add file to or update asset library
-        this.hashAssets[absoluteFilePath] = hashValue;
+        fileInfo.assets[absoluteFilePath] = hashValue;
         return Promise.resolve(false);
       }
       return Promise.resolve(true);

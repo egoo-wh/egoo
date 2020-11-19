@@ -68,6 +68,9 @@ export default class Fenli extends Handler {
       log(logMsg('fenli success.', 'SUCCESS'));
     } catch (error) {
       log(logMsg('fenli fail.', 'ERROR'));
+      log(logMsg(error, 'ERROR'));
+      log(error.stack);
+      throw error;
     }
   }
 
@@ -90,15 +93,17 @@ export default class Fenli extends Handler {
   }
 
   async start() {
-    const all = this.sources.map(source => {
-      return this.startOne(source)
-    })
-    try {
-      await Promise.all(all);
-    } catch (error) {
-      log(logMsg(error, 'ERROR'));
-      throw error;
-    }
+    return this.sources.reduce(async (promise, source) => {
+      try {
+        await promise
+        log(logMsg(`start ${logMsg(source, 'PATH')}`, 'STEP'));
+        await this.startOne(source)
+      } catch (error) {
+        return Promise.reject(error)
+      }
+      log(logMsg(`finish ${logMsg(source, 'PATH')}`, "STEP"))
+      return Promise.resolve()
+    }, Promise.resolve())
   }
 
   startOne(source) {
@@ -109,9 +114,10 @@ export default class Fenli extends Handler {
       let _d = path.join(dest, path.relative(source, filePath));
       // console.log(_d);
       if (type === 'file') {
-        if (this.patchInstaller.detectAndAdd(filePath, _d) !== undefined) {
+        let pi = this.patchInstaller.detectAndAdd(filePath, _d)
+        if (pi) {
           log(logMsg(`replace ${logMsg(path.relative(source, filePath), 'PATH')} > ${logMsg(path.relative(source, _d), 'PATH')}`))
-          return this.patchInstaller.run();
+          return this.patchInstaller.run(pi);
         } else {
           log(logMsg(`cp ${logMsg(path.relative(source, filePath), 'PATH')} > ${logMsg(path.relative(source, _d), 'PATH')}`))
           return cp(filePath, _d);

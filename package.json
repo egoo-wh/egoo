@@ -1,6 +1,6 @@
 {
   "name": "egoo",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "description": "Egoo CLI. includes several tools to improve work efficiency.",
   "keywords": [
     "egoo",
@@ -25,8 +25,8 @@
   },
   "scripts": {
     "test": "npx jest",
-    "dev-fenli": "ts-node src/index.ts -a pvp fenli /Users/pata/Documents/Egoo/WORKSPACE/DNF-3觉合集/a20200424collection",
-    "dev-pub": "ts-node src/index.ts pub /Users/pata/Documents/Egoo/WORKSPACE/a20191226lovem --config-forcereload",
+    "dev-fenli": "ts-node src/index.ts fenli -a dnf /Users/pata/Documents/Egoo/WORKSPACE/DNF-3觉合集/a20200424collection /Users/pata/Documents/Egoo/WORKSPACE/DNF-3觉合集/a20200424collectionm",
+    "dev-pub": "ts-node src/index.ts pub  /Users/pata/Documents/Egoo/WORKSPACE/DNF-3觉合集/a20200424collection /Users/pata/Documents/Egoo/WORKSPACE/DNF-3觉合集/a20200424collectionm",
     "build": "rimraf lib && npx tsc -p tsconfig.json"
   },
   "dependencies": {

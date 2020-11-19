@@ -99,8 +99,8 @@ export default class Uploader extends Handler {
       beforeQuery: new AsyncSeriesHook(['uinfo']),
       query: new AsyncSeriesBailHook(['qinfo', 'info']),
       afterQuery: new AsyncSeriesHook(['uinfo']),
-      beforeUpload: new AsyncSeriesHook(['uinfo']),
-      afterUpload: new AsyncSeriesHook(['uinfo']),
+      beforeUpload: new AsyncSeriesHook(),
+      afterUpload: new AsyncSeriesHook(),
       complete: new AsyncSeriesHook(),
       dispose: new AsyncSeriesHook()
     }
@@ -117,14 +117,14 @@ export default class Uploader extends Handler {
       await this.start();
       await this.close();
       log(logMsg('publish success.', 'SUCCESS'));
-      log(logMsg('preview url: ' + logMsg(
-        this.getPreviewURLs().join(',')
-      , 'UNDERLINE')));
+      log(logMsg('preview url: ' + this.getPreviewURLs().map(u => {
+        return logMsg(u, 'UNDERLINE')
+      }).join(' , ')));
     } catch (error) {
       log(logMsg('publish fail.', 'ERROR'));
       log(logMsg(error, 'ERROR'));
       log(error.stack);
-      process.exit(1);
+      throw error;
     }
   }
   /**
@@ -191,17 +191,20 @@ export default class Uploader extends Handler {
     return this.uploads.reduce(async (promise, uinfo) => {
       try {
         await promise;
+        log(logMsg(`start query ${logMsg(uinfo.source, 'PATH')}`, "STEP"))
         await this.hooks.beforeQuery.promise(uinfo);
         await this.buildQuery(uinfo);
         await this.hooks.afterQuery.promise(uinfo);
-        await this.hooks.beforeUpload.promise(uinfo);
-        await this.uploadQuerys(this.sftp, this.querys)
-        await this.hooks.afterUpload.promise(uinfo);
+        log(logMsg(`finish query ${logMsg(uinfo.source, 'PATH')}`, "STEP"))
         return Promise.resolve();
-      } catch (err) {
-        throw err;
+      } catch (error) {
+        return Promise.reject(error)
       }
-    }, Promise.resolve()).then(() => {
+    }, Promise.resolve()).then(async () => {
+      await this.hooks.beforeUpload.promise();
+      await this.uploadQuerys(this.sftp, this.querys)
+      await this.hooks.afterUpload.promise();
+    }).then(() => {
       return this.hooks.complete.promise()
     })
   }
@@ -258,12 +261,12 @@ export default class Uploader extends Handler {
   }
   // 上传队列
   uploadQuerys(sftp, querys) {
-    log(logMsg('query load start.', 'STEP'))
+    log(logMsg('start upload query.', 'STEP'))
     return new Promise((resolve, reject) => {
       this.uploadQuery(sftp, querys, 0)
         .then((finish) => {
           if (finish) {
-            log(logMsg('query upload finish.', 'STEP'))
+            log(logMsg('finish upload query.', 'STEP'))
             resolve();
           } else {
             reject('query upload errors somewhere.');

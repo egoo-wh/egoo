@@ -69,11 +69,11 @@ source为`E:\workspace\201503\互娱\sq26659`，可以。
 #### 分离html
 只会处理html标签的**href|src|poster**属性。
 注意
-* 1. 不会处理懒加载等场景下添加的自定义属性。如<div data-lazy=url />
-* 2. 不会处理<form action=url>、<button formaction=url>、<head profile=url>等
+1. 不会处理懒加载等场景下添加的自定义属性。如`<div data-lazy=url />`
+2. 不会处理`<form action=url>、<button formaction=url>、<head profile=url>`等
 
 #### 分离样式
-- css样式的url()部分
+只会处理样式的`url()`部分
 
 所以，该功能将创建一个分离后的版本。
 ```

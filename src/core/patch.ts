@@ -24,6 +24,8 @@ const fsunlink = util.promisify(fs.unlink);
 export class PatchInstaller {
   private patchs: Patch[];
   private mergedInfos: PatchInfo[];
+  // 补丁文件存放临时组
+  public infos: PatchInfo[] = [];
   constructor() {
   }
   register(patch: Patch) {
@@ -48,61 +50,55 @@ export class PatchInstaller {
     return this.patchs.filter(patch => patch.detect(file));
   }
 
-  detectAndAdd(file, dest: string | null = null) {
-    const patches = this.detect(file);
-    if (patches && patches.length > 0) {
-      const tempsPath = patches.map(patch => patch.add(file, dest));
-      return tempsPath;
+  add(patchs: Patch[], file: string, dest: string | null = null): PatchInfo {
+    if (this.infos.some(info => info.src.indexOf(file) >= 0)) {
+      throw new Error("重复add，请检查");
     }
-  }
-
-  async run() {
-    if (!this.patchs) {
-      return null;
-    }
-    // 执行所有补丁prepare
-    await Promise.all(this.patchs.map(patch => patch.prepare()))
-    const mergedInfos = this.merge();
-    this.mergedInfos = mergedInfos;
-    return mergedInfos.reduce(async (promise, info) => {
-      try {
-        await promise;
-        // 返回所有Patch的transform操作
-        const streams = info.patch.map(patchName => {
-          const patch = this.getPatch(patchName);
-          if (patch) {
-            // log(colors.yellow(`${patch.name} run`));
-            return patch.run(info);
-          } else {
-            return null
-          }
-        })
-        // log(colors.yellow(`${info.src} run`));
-        // 全部丢给管道操作
-        return await FileUtil.modify(info.src, info.dest, streams);
-      } catch (error) {
-        return Promise.reject(error);
+    let pi;
+    if (dest) {
+      pi = new PatchInfo(file, dest, [])
+    } else {
+      let fileName = path.basename(file);
+      if (fileName.substr(0, 1) !== '~') {
+        let tempPath = path.join(file, '..', '~' + fileName);
+        pi = new PatchInfo(file, tempPath, [])
+        pi.isTempFileDest = true;
+      } else {
+        // return '';
+        throw new Error(`文件不能以~开头，请修改 ${file}`);
       }
-    }, Promise.resolve())
+    }
+    pi.patchs = patchs;
+    this.infos.push(pi)
+    return pi;
   }
-
   /**
-   * 合并patchs的所有PatchInfo，PatchInfo相等(src和dest相同)则合并。
+   * 检测并添加
+   * @param file
+   * @param dest 目标路径，如果不指定，则为临时文件(~fileName)
    */
-  merge() {
-    return this.patchs.reduce((arr: PatchInfo[], patch: Patch) => {
-      if (patch.infos) {
-        patch.infos.forEach((info: PatchInfo) => {
-          let foundInfo = arr.find(a => a.equal(info));
-          if (foundInfo) {
-            foundInfo.merge(info);
-          } else {
-            arr.push(info.clone());
-          }
-        })
-      }
-      return arr;
-    }, [])
+  detectAndAdd(file: string, dest: string | null = null): PatchInfo | null {
+    let patchs = this.detect(file);
+    if (patchs && patchs.length > 0) {
+      return this.add(patchs, file, dest);
+    }
+    return null
+  }
+
+  async run(info: PatchInfo) {
+    // 返回所有Patch的替换操作
+    const replacements = info.patchs.map(patch => {
+      return patch.run(info);
+    })
+    // log(colors.yellow(`${info.src} run`));
+    return await FileUtil.modify(info.src, info.dest, replacements);
+  }
+
+  async runAll() {
+    const all = this.infos.map(info => {
+      return this.run(info)
+    })
+    return Promise.resolve(all);
   }
 
   getPatch(name: string) {
@@ -113,12 +109,14 @@ export class PatchInstaller {
    * 清除临时文件
    */
   async clear() {
-    if (this.mergedInfos && this.mergedInfos.length > 0) {
-      const all = this.mergedInfos.map(async info => {
-        return await fsunlink(info.dest);
-      })
-      return Promise.all(all);
-    }
+    const all = this.infos.map(async info => {
+      if (info.isTempFileDest) {
+        return await fsunlink(info.dest)
+      } else {
+        return Promise.resolve()
+      }
+    })
+    return Promise.all(all);
   }
 }
 
@@ -128,8 +126,6 @@ export class PatchInstaller {
  */
 export abstract class Patch {
   public name: string;
-  // 补丁文件存放临时组
-  public infos: PatchInfo[];
 
   constructor(name: string) {
     this.name = name;
@@ -140,30 +136,6 @@ export abstract class Patch {
    * @param file 
    */
   abstract detect(file: string): boolean;
-
-  /**
-   * 加入补丁临时组
-   * @param file 
-   * @param dest 目标路径，如果不指定，则为临时文件(~fileName)，返回目标路径
-   * @return 临时文件地址 ~fileName
-   */
-  add(file: string, dest: string | null = null): string {
-    if (!this.infos) { this.infos = []; }
-    if (dest) {
-      this.infos.push(new PatchInfo(file, dest, [this.name]))
-      return dest;
-    } else {
-      let fileName = path.basename(file);
-      if (fileName.substr(0, 1) !== '~') {
-        let tempPath = path.join(file, '..', '~' + fileName);
-        this.infos.push(new PatchInfo(file, tempPath, [this.name]))
-        return tempPath;
-      } else {
-        // return '';
-        throw new Error("文件不能以~开头，请修改");
-      }
-    }
-  }
 
   /**
    * 执行打补丁之前的准备工作。
@@ -187,12 +159,13 @@ export abstract class Patch {
 export class PatchInfo {
   public src: string;
   public dest: string;
-  public patch: string[];
+  public patchs: Patch[];
+  public isTempFileDest: boolean = false
 
-  constructor(src: string, dest: string, patch: string[]) {
+  constructor(src: string, dest: string, patchs: Patch[]) {
     this.src = src;
     this.dest = dest;
-    this.patch = patch;
+    this.patchs = patchs;
   }
 
   equal(info) {
@@ -200,9 +173,9 @@ export class PatchInfo {
   }
 
   merge(info: PatchInfo) {
-    this.patch = this.patch.concat(info.patch);
+    this.patchs = this.patchs.concat(info.patchs);
   }
   clone() {
-    return new PatchInfo(this.src, this.dest, this.patch)
+    return new PatchInfo(this.src, this.dest, this.patchs)
   }
 }
