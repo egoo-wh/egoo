@@ -118,20 +118,5 @@ export default class SSIPatch extends Patch {
 	 */
   async getIncludeFileContents() {
     log(logMsg('get include contents'));
-    this.infos.map(info=>{
-      
-    })
-    let all = _.chain(this.infos)
-      .filter((temp) => {
-        
-      })
-      .map((temp) => {
-        // console.log(temp);
-        return new Promise((resolve, reject) => {
-          
-        })
-      })
-      .value();
-    return Promise.all(all);
   }
 }
