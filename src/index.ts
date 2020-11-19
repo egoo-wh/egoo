@@ -111,7 +111,7 @@ yargs
       const { source, others, url, aliases, forcehttps } = argv;
       const sources = [source as string].concat(others as string[])
       let forceHttps: boolean = forcehttps as boolean;
-      if ((aliases as string).toLowerCase() == 'dnf') {
+      if (aliases && (aliases as string).toLowerCase() == 'dnf') {
         forceHttps = true;
       }
       const fl = new Fenli(sources, forceHttps);
