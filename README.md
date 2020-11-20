@@ -17,12 +17,12 @@ egoo命令行。包含一些提高工作效率的工具。
 发布到内网。主要方便本地无web server的开发同学，1.进行H5页面真机调试; 2.将地址给相应设计同学进行体验确认。  
 发布到外网。提供给需求方预览地址（主要是H5页面），供其扫描二维码体验确认。[URL转二维码链接](http://www.liantu.com/)
 ```
-egoo pub/publish [source] [options]
+egoo pub/publish [sources] [options]
 ```
 ### 参数说明：
 参数 | 说明
 ----- | ------------
-source | 要上传的文件路径
+sources | 要上传的文件路径。支持多个路径，多个路径用空格分割线。
 
 ### 选项说明：
 
@@ -73,16 +73,16 @@ source为`E:\workspace\201503\互娱\sq26659`，可以。
 2. 不会处理`<form action=url>、<button formaction=url>、<head profile=url>`等
 
 #### 分离样式
-只会处理样式的`url()`部分
+只会处理样式的`url()`部分  
 
-所以，该功能将创建一个分离后的版本。
+所以，分离功能将创建一个分离后的版本。
 ```
-egoo fenli [source] [options]
+egoo fenli [sources] [options]
 ```
 ### 参数说明：
 参数 | 说明
 ----- | ------------
-source | 要分离的文件路径
+sources | 要分离的文件路径。支持多个路径，多个路径用空格分割线。
 
 ### 选项说明：
 

@@ -107,6 +107,10 @@ export default class Fenli extends Handler {
   }
 
   startOne(source) {
+    // 如果路径以 / 结尾，则去掉末尾的/ 
+    if (source.substr(source.length - 1) === '/') {
+      source = source.substr(0, source.length - 1);
+    }
     const dest = source + PROJECT_SUFFIX;
     const projectName = path.basename(source);
     (this.patchInstaller.getPatch('FenliPatch') as FenliPatch).setFenliPath(this.fenliPath + projectName);
