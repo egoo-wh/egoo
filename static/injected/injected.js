@@ -5,6 +5,7 @@ var noop = function (a, b, c, d) { }, _override = noop;
 Object.defineProperty(window, 'PTTSendClick', { configurable: true, get: function () { return _override }, set: function (v) { } });
 Object.defineProperty(window, 'pgvMain', { configurable: true, get: function () { return _override }, set: function (v) { } });
 Object.defineProperty(window, 'TGMobileShare', { configurable: true, get: function () { return _override }, set: function (v) { } });
+Object.defineProperty(window, 'pgvSendClick', { configurable: true, get: function () { return _override }, set: function (v) { } });
 
 // milo.loader.need
 var IGNORE_MILO_MODULES = ['biz.login'];
