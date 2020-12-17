@@ -42,6 +42,10 @@ describe('replaceRelativeUrlsInHTMLTag', () => {
     let result = fl.replaceRelativeUrlsInHTMLTag('<video muted="true" autoplay="true" preload="auto" poster="../ossweb-img/poster.jpg" >')
     expect(result).toEqual('<video muted="true" autoplay="true" preload="auto" poster="//game.gtimg.cn/images/dnf/cp/a20200319box/poster.jpg" >');
   })
+  test.only('multi replace', () => {
+    let result = fl.replaceRelativeUrlsInHTMLTag('<div><img src="../images/slogan.jpg" /><img src="../images/slogan2.jpg" /></div>')
+    expect(result).toEqual('<div><img src="//game.gtimg.cn/images/dnf/cp/a20200319box/slogan.jpg" /><img src="//game.gtimg.cn/images/dnf/cp/a20200319box/slogan2.jpg" /></div>');
+  })
   test('html', () => {
     let result = fl.replaceRelativeUrlsInHTMLTag(EXAMPLE1)
     expect(result).toEqual(`

@@ -78,7 +78,7 @@ export default class FenliPatch extends Patch {
    */
   replaceRelativeUrlsInStyle(chunk) {
     chunk = chunk.replace(CSS_IMG_REG, (match) => {
-      return match ? match.replace(/(\.+\/)*(images|ossweb-img)/, this.fenliPath) : match;
+      return match ? match.replace(/(\.+\/)*(images|ossweb-img)/g, this.fenliPath) : match;
     })
     return chunk;
   }
@@ -105,7 +105,7 @@ export default class FenliPatch extends Patch {
     // TODO:
     // https://github.com/peerigon/batch-replace/
     chunk = chunk.replace(HTML_TAG_IMG_REG, (match, p1, p2, p3, p4, p5) => {
-      return match ? match.replace(/(\.+\/)*(images|ossweb-img)/, this.fenliPath) : match;
+      return match ? match.replace(/(\.+\/)*(images|ossweb-img)/g, this.fenliPath) : match;
     });
     return chunk;
   }
