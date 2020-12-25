@@ -5,7 +5,7 @@ import { Patch, PatchInfo } from "../../core/patch";
 const HTML_ELEMENT_REG = /(<([^>]+)>)/g;
 const HTML_TAG_IMG_REG = /<([^>]+)\s*(src|href|poster)(\s*=['"])(\.+\/)*(images|ossweb-img)(.*['"])[^>]*>/g
 const CSS_URL_REG = /(url\(\s*['"]?)([^"')]+)(["']?\s*\))/g;
-const CSS_IMG_REG = /(:\s*)(url\(\s*['"]?)(\.+\/)*(images|ossweb-img)/g;
+const CSS_IMG_REG = /(:)([#\s\w]*)(url\(\s*['"]?)(\.+\/)*(images|ossweb-img)/g;
 
 export default class FenliPatch extends Patch {
   private fenliPath: string;

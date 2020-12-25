@@ -141,10 +141,10 @@ export abstract class Patch {
    * 执行打补丁之前的准备工作。
    * 通常用来获取执行补丁时所需的额外数据。
    */
-  abstract async prepare(): Promise<any>;
+  abstract prepare(): Promise<any>;
   /**
-   * 执行打补丁（文件修改），返回一个Transform（throught2对象）
-   * @return throught2 | Transform
+   * 执行打补丁（文件修改），返回字符串替换函数，具体信息查看FileUtil.modify
+   * @return (line: string) => string
    */
   abstract run(info: PatchInfo): any;
 

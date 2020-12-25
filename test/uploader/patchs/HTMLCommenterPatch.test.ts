@@ -8,7 +8,7 @@ beforeAll(()=>{
   hm = new HTMLCommenterPatch()
 })
 
-test('prepare', async ()=>{
+test.skip('prepare', async ()=>{
   await hm.prepare()
   expect(hm.rules).toEqual(expect.arrayContaining([
     expect.objectContaining({
@@ -18,7 +18,7 @@ test('prepare', async ()=>{
   ]))
 })
 
-describe('wrapComment', () => {
+describe.skip('wrapComment', () => {
   test('wrap TGMobileShare script', () => {
     let result1 = hm.wrapComment('<script src="//ossweb-img.qq.com/images/js/TGMobileShare/TGMobileShare.min.js"></script>')
     expect(result1).toEqual(`<!-- <script src="//ossweb-img.qq.com/images/js/TGMobileShare/TGMobileShare.min.js"></script> -->`)

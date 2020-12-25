@@ -60,7 +60,7 @@ class IllegalCodeMgr {
     }
   }
 
-  include() {
+  include(): Promise<void> {
     return new Promise((resolve, reject) => {
       try {
         this.assets = require(this.filePath) || {};

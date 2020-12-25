@@ -64,7 +64,7 @@ export async function walkFile<T extends WalkFileHandler>(src: string, handler: 
  * @param  {[type]}   args                [description]
  * @return {[type]}                       [description]
  */
-export function sfcall(fn, ctx, isErrorResolveFalse, ...fnArgs) {
+export function sfcall(fn, ctx, isErrorResolveFalse, ...fnArgs): Promise<void|boolean> {
   if (!fn) {
     throw new Error("can't find function for sfcall.");
   };

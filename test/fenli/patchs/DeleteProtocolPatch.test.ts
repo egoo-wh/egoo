@@ -94,7 +94,7 @@ describe('deleteProtocolInHTMLTags', () => {
     try {
       let result = dp.deleteProtocolInHTMLTag(EXAMPLE_HREF_ELEMENT_A);
     } catch (error) {
-      expect(error).toEqual(new Error(`强制Https时发现HTTP，请检查。`))
+      expect(error.message).toContain('强制https时发现http，请检查');
     }
     dp.setWaringWhenNotHttps(false);
   })

@@ -260,7 +260,7 @@ export default class Uploader extends Handler {
     });
   }
   // 上传队列
-  uploadQuerys(sftp, querys) {
+  uploadQuerys(sftp, querys): Promise<void> {
     log(logMsg('start upload query.', 'STEP'))
     return new Promise((resolve, reject) => {
       this.uploadQuery(sftp, querys, 0)

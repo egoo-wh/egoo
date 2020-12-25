@@ -4,3 +4,7 @@ let uploader: Uploader;
 beforeAll(() => {
   uploader = new Uploader();
 })
+
+test.skip('run', () => {
+  
+})

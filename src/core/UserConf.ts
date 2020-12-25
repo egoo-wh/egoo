@@ -1,16 +1,16 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as colors from 'ansi-colors';
-import * as log from 'fancy-log';
 import * as util from 'util';
-import { getLocalURL, appRootPathJoin } from '../utils';
+import { logger, logMsg, getLocalURL, appRootPathJoin } from '../utils';
 
 const fslstat = util.promisify(fs.lstat);
 const fsmkdir = util.promisify(fs.mkdir);
 const fswriteFile = util.promisify(fs.writeFile);
 
 const USER_CONFIG_FILENAME = 'user_conf.json';
-const LOG_NAME = 'UserConf: ';
+
+const log = logger('UserConf')
 
 /**
  * 管理用户配置
@@ -31,7 +31,7 @@ export default class UserConf {
 	 * 使用UserConf时，需首先include.
 	 * @return {[type]} [description]
 	 */
-  include(confFileName = null) {
+  include(confFileName: string | null = null) {
     if (!confFileName) {
       this.confPath = getLocalURL(USER_CONFIG_FILENAME);
     } else {
@@ -39,10 +39,10 @@ export default class UserConf {
     }
     if (!this.included) {
       return this.createDataDir().then((exists) => {
-        if (!exists) { log(LOG_NAME, colors.red("找不到data文件夹")); return; }
+        if (!exists) { log(logMsg("找不到data文件夹", 'ERROR')); return; }
         try {
           this.assets = require(this.confPath) || {};
-          log(LOG_NAME, colors.yellow('include user conf.'));
+          log(logMsg('include user conf.', 'STEP'));
         } catch (err) {
           // no user conf file.
         }
@@ -104,7 +104,7 @@ export default class UserConf {
 
   save() {
     if (this.assets) {
-      log(LOG_NAME, colors.yellow('save user conf.'));
+      log(logMsg('save user conf.', 'STEP'));
       return fswriteFile(this.confPath, JSON.stringify(this.assets));
     } else {
       return Promise.resolve()

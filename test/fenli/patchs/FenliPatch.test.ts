@@ -34,6 +34,14 @@ describe('replaceRelativeUrlsInHTMLTag', () => {
     let result = fl.replaceRelativeUrlsInHTMLTag('<img src="../images/slogan.jpg" />')
     expect(result).toEqual('<img src="//game.gtimg.cn/images/dnf/cp/a20200319box/slogan.jpg" />');
   })
+  test('src in js', () => {
+    let result = fl.replaceRelativeUrlsInHTMLTag('var src="ossweb-img";');
+    expect(result).toEqual('var src="ossweb-img";');
+  })
+  test('src property in js', () => {
+    let result = fl.replaceRelativeUrlsInHTMLTag(`$('#list').append('<img src="ossweb-img/item.png" />)`)
+    expect(result).toEqual(`$('#list').append('<img src="//game.gtimg.cn/images/dnf/cp/a20200319box/item.png" />)`)
+  })
   test('href property', () => {
     let result = fl.replaceRelativeUrlsInHTMLTag('<link rel="stylesheet" href="ossweb-img/comm.css">')
     expect(result).toEqual('<link rel="stylesheet" href="//game.gtimg.cn/images/dnf/cp/a20200319box/comm.css">');
@@ -42,7 +50,7 @@ describe('replaceRelativeUrlsInHTMLTag', () => {
     let result = fl.replaceRelativeUrlsInHTMLTag('<video muted="true" autoplay="true" preload="auto" poster="../ossweb-img/poster.jpg" >')
     expect(result).toEqual('<video muted="true" autoplay="true" preload="auto" poster="//game.gtimg.cn/images/dnf/cp/a20200319box/poster.jpg" >');
   })
-  test.only('multi replace', () => {
+  test('multi replace', () => {
     let result = fl.replaceRelativeUrlsInHTMLTag('<div><img src="../images/slogan.jpg" /><img src="../images/slogan2.jpg" /></div>')
     expect(result).toEqual('<div><img src="//game.gtimg.cn/images/dnf/cp/a20200319box/slogan.jpg" /><img src="//game.gtimg.cn/images/dnf/cp/a20200319box/slogan2.jpg" /></div>');
   })
@@ -95,6 +103,26 @@ var path = 'ossweb-img/';
 </html>
 `
 describe('replaceRelativeUrlsInStyle', () => {
+  test('background replace', () => {
+    let result = fl.replaceRelativeUrlsInStyle('.head{background: url(../ossweb-img/head.jpg) no-repeat;}')
+    expect(result).toEqual('.head{background: url(//game.gtimg.cn/images/dnf/cp/a20200319box/head.jpg) no-repeat;}');
+  })
+  test('background url width quote', () => {
+    let result = fl.replaceRelativeUrlsInStyle('.head{background: url("../ossweb-img/head.jpg") no-repeat;}')
+    expect(result).toEqual('.head{background: url("//game.gtimg.cn/images/dnf/cp/a20200319box/head.jpg") no-repeat;}');
+  })
+  test('background url width color', () => {
+    let result = fl.replaceRelativeUrlsInStyle('.head{background: #ffffff url("../ossweb-img/head.jpg") no-repeat;}')
+    expect(result).toEqual('.head{background: #ffffff url("//game.gtimg.cn/images/dnf/cp/a20200319box/head.jpg") no-repeat;}');
+  })
+  test('background url width color2', () => {
+    let result = fl.replaceRelativeUrlsInStyle('.head{background: url("../ossweb-img/head.jpg") no-repeat #ffffff;}')
+    expect(result).toEqual('.head{background: url("//game.gtimg.cn/images/dnf/cp/a20200319box/head.jpg") no-repeat #ffffff;}');
+  })
+  test('background url in js', () => {
+    let result = fl.replaceRelativeUrlsInStyle(`$('head').css('backgroundImage', 'url(ossweb-img/head.jpg)')`);
+    expect(result).toEqual(`$('head').css('backgroundImage', 'url(ossweb-img/head.jpg)')`)
+  })
   test('html', () => {
     let result = fl.replaceRelativeUrlsInStyle(EXAMPLE2)
     expect(result).toEqual(`
