@@ -22,7 +22,7 @@ const fsunlink = util.promisify(fs.unlink);
  * 补丁安装器
  */
 export class PatchInstaller {
-  private patchs: Patch[];
+  private patchs: Patch[] = [];
   private mergedInfos: PatchInfo[];
   // 补丁文件存放临时组
   public infos: PatchInfo[] = [];
