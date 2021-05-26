@@ -34,6 +34,8 @@ yargs
       },
       'top': {
         describe: '上传到egoodev.top。等同于--mode top',
+        type: 'boolean',
+        default: false,
       },
       'local': {
         describe: '上传到内部服务器（192.168.1.11）。等同于--mode local',
