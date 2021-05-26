@@ -67,7 +67,7 @@ yargs
       }
     },
     handler: async (argv) => {
-      let { source, others, git, local, mode } = argv;
+      let { source, others, git, top, local, mode } = argv;
       mode = (mode as string).toLowerCase();
       if (git) {
         mode = 'git'
