@@ -32,13 +32,16 @@ yargs
         type: 'boolean',
         default: false,
       },
+      'top': {
+        describe: '上传到egoodev.top。等同于--mode top',
+      },
       'local': {
         describe: '上传到内部服务器（192.168.1.11）。等同于--mode local',
         type: 'boolean',
         default: false,
       },
       'mode': {
-        describe: '上传的模式，可以是git/web/local，默认为web',
+        describe: '上传的模式，可以是top/git/web/local，默认为web，上传到egoodev.cn',
         type: 'string',
         default: 'web'
       },
@@ -70,6 +73,8 @@ yargs
         mode = 'git'
       } else if (local) {
         mode = 'local'
+      } else if (top) {
+        mode = 'top';
       }
       let ignores = {};
       for (const key in argv) {
