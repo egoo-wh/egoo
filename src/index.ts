@@ -50,14 +50,14 @@ yargs
       },
       'pinna': {
         alias: 'p',
-        describe: '上传到pinnadev.top。等同于--mode pinna',
+        describe: '上传到pinnadev.top。等同于--mode pinna --ignore-injected --ignore-replaced',
         type: 'boolean',
         default: false,
       },
       'mode': {
         describe: '上传的模式，可以是top/pinna，默认为top，上传到egoodev.top',
         type: 'string',
-        default: 'top'
+        default: 'egoo'
       },
       'ignore-cache': {
         describe: '忽略缓存，全量上传',
