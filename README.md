@@ -29,7 +29,7 @@ sources | 要上传的文件路径。支持多个路径，多个路径用空格�
  选项  | 说明
 ------------- | -------------
 --mode | 上传的模式，可以是egoo/pinna，默认为egoo。egoo上传到egoodev.top，pinna上传到pinnadev.top。  
--p --pinna | 等同于--mode pinna
+-p --pinna | 等同于--mode pinna --ignore-injected --ignore-replaced
 -e --egoo | 等同于--mode egoo
 --ignore-cache | 忽略缓存，全量上传  
 --config-forcereload | 重新加载配置文件
@@ -39,8 +39,7 @@ sources | 要上传的文件路径。支持多个路径，多个路径用空格�
 例如：
 ```
 egoo pub E:\workspace\zoom_bug
-egoo pub E:\workspace\zoom_bug --git
-egoo pub E:\workspace\zoom_bug --git --ignore-cache
+egoo pub E:\workspace\zoom_bug -p
 ```
 上述命令表示发布zoom_bug文件夹。  
 命令行出现**publish success.**，表示发布成功。 **preview url**表示预览地址。
