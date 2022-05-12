@@ -43,11 +43,13 @@ yargs
         default: false,
       },
       'egoo': {
+        alias: 'e',
         describe: '上传到egoodev.top。等同于--mode egoo',
         type: 'boolean',
         default: false,
       },
       'pinna': {
+        alias: 'p',
         describe: '上传到pinnadev.top。等同于--mode pinna',
         type: 'boolean',
         default: false,
@@ -55,7 +57,7 @@ yargs
       'mode': {
         describe: '上传的模式，可以是top/pinna，默认为top，上传到egoodev.top',
         type: 'string',
-        default: 'web'
+        default: 'top'
       },
       'ignore-cache': {
         describe: '忽略缓存，全量上传',

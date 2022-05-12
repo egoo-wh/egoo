@@ -28,9 +28,9 @@ sources | 要上传的文件路径。支持多个路径，多个路径用空格�
 
  选项  | 说明
 ------------- | -------------
---git | 上传到Gitee Pages。等同于--mode git。因为发布的外网域名，经常被腾讯管家封，所以，考虑使用代码托管平台降低被封风险，并且也能降低启用新域名的时间金钱成本。  
---local | 等同于--mode local。上传到内网，方便没有web服务器环境的同学预览调试。  
---mode | 上传的模式，可以是git/web/local，默认为web。web为阿里云服务器，local为内网，git为Gitee Pages。  
+--mode | 上传的模式，可以是egoo/pinna，默认为egoo。egoo上传到egoodev.top，pinna上传到pinnadev.top。  
+-p --pinna | 等同于--mode pinna
+-e --egoo | 等同于--mode egoo
 --ignore-cache | 忽略缓存，全量上传  
 --config-forcereload | 重新加载配置文件
 --ignore-injected | 忽略文件注入
