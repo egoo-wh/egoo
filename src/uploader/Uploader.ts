@@ -123,7 +123,7 @@ export default class Uploader extends Handler {
     } catch (error) {
       log(logMsg('publish fail.', 'ERROR'));
       log(logMsg(error, 'ERROR'));
-      log(error.stack);
+      log((error as Error).stack);
       throw error;
     }
   }

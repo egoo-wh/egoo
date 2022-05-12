@@ -17,7 +17,7 @@ const CONFIG_URL = 'http://cli.egooidea.com/';
     表示成功完成 -> green
  * @param name 打印信息的模块名/标签名
  */
-export function logMsg(msg: string, type: 'PATH' | 'ERROR' | 'STEP' | 'TIP' | 'SUCCESS' | 'UNDERLINE' | '' = '') {
+export function logMsg(msg: string | any, type: 'PATH' | 'ERROR' | 'STEP' | 'TIP' | 'SUCCESS' | 'UNDERLINE' | '' = '') {
   let fn: colors.StyleFunction;
   switch (type) {
     case 'PATH': fn = colors.cyan; break;
