@@ -83,7 +83,12 @@ export default class SSHClient {
       const secret = await fsreadFile(keypath, 'utf8');
       const ciphers = cipher(secret);
       const decrypted = ciphers.decrypt(contents)
-      const r = JSON.parse(decrypted);
+      let r;
+      if (typeof decrypted == 'string') {
+          r = JSON.parse(decrypted);
+      } else {
+          r = decrypted
+      }
       return Promise.resolve(r)
     } catch (error) {
       throw error;
