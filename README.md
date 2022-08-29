@@ -4,7 +4,7 @@ egoo命令行。包含一些提高工作效率的工具。
 ## 安装
 1. 安装[Node.js](https://nodejs.org/)(v10.0+)。如已有node环境则跳过此步。
 2. 安装[Git](https://git-scm.com/)。如已有Git环境则跳过此步。
-3. 安装 **egoo** 命令行工具。`npm i -g git+https://e.coding.net/egoo-wh/egoo-cli/egoo.git`。更新 **egoo** 也使用此命令。
+3. 安装 **egoo** 命令行工具。`npm i git+https://e.coding.net/egoo-wh/egoo-cli/egoo.git --location=global`。更新 **egoo** 也使用此命令。
 4. 输入`egoo -v`，出现版本信息（类似`2.0.0`），表明 **egoo** 安装成功。
 5. 如果更新有问题，则使用`npm rm egoo -g`。先卸载，然后重复步骤3再次安装。
 

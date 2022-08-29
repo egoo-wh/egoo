@@ -1,6 +1,6 @@
 {
   "name": "egoo",
-  "version": "2.1.5",
+  "version": "2.1.6",
   "description": "Egoo CLI. includes several tools to improve work efficiency.",
   "keywords": [
     "egoo",
@@ -44,7 +44,7 @@
     "pump": "^3.0.0",
     "pumpify": "^2.0.1",
     "readable-stream": "^3.6.0",
-    "ssh2": "^0.8.9",
+    "ssh2": "^1.11.0",
     "tapable": "^2.2.1",
     "tslib": "^2.4.0",
     "yargs": "^15.4.1"
