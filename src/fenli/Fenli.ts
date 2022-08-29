@@ -66,7 +66,7 @@ export default class Fenli extends Handler {
       await this.init(aliases, url);
       await this.start();
       log(logMsg('fenli success.', 'SUCCESS'));
-    } catch (error) {
+    } catch (error: any) {
       log(logMsg('fenli fail.', 'ERROR'));
       log(logMsg(error, 'ERROR'));
       log(error.stack);
