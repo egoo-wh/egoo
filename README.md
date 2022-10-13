@@ -2,9 +2,9 @@
 egoo命令行。包含一些提高工作效率的工具。
 
 ## 安装
-1. 安装[Node.js](https://nodejs.org/)(v10.0+)。如已有node环境则跳过此步。
+1. 安装[Node.js](https://nodejs.org/)(v14.0+)。如已有node环境则跳过此步。
 2. 安装[Git](https://git-scm.com/)。如已有Git环境则跳过此步。
-3. 安装 **egoo** 命令行工具。`npm i git+https://e.coding.net/egoo-wh/egoo-cli/egoo.git -g`。更新 **egoo** 也使用此命令。
+3. 管理员方式打开命令行，安装 **egoo** 命令行工具。`npm i @egoo/cli -g`。更新 **egoo** 也使用此命令。
 4. 输入`egoo -v`，出现版本信息（类似`2.0.0`），表明 **egoo** 安装成功。
 5. 如果更新有问题，则使用`npm rm egoo -g`。先卸载，然后重复步骤3再次安装。
 
@@ -46,14 +46,12 @@ egoo pub E:\workspace\zoom_bug -p
 
 ### 注意事项
 1. **重点：外网地址只是临时地址，仅用于预览体验，不能作为正式发布地址。如果接口人有分享该地址到朋友圈等公开地址的行为，要告知接口人不能这样做——就说是临时预览地址，不稳定，随时可能失效。**
-2. 如果上传的文件路径存在特殊字符，如空格、括号等，则需要用引号包裹。如:  
-`E:\H5无线端页面\20141208-WX17007-双十二充值活动(submitted)\WX17007`，那么上传命令则为`egoo publish "E:\H5无线端页面\20141208-WX17007-双十二充值活动(submitted)\WX17007"`。
-3. 上传的文件夹（包括其下所有文件名、文件夹名）不能包含中文，否则会因乱码而无法访问。例如：  
-source为`E:\workspace\201503\互娱\a20150312mweud`可以。  
-source为`E:\workspace\201503\互娱\a20150312mweud奖励`不可以。  
-4. 上传的文件名不能有大写字母，否则无法访问。例如：  
-source为`E:\workspace\201503\互娱\SQ26659`，不可以。  
-source为`E:\workspace\201503\互娱\sq26659`，可以。  
+2. 上传的文件夹（包括其下所有文件名、文件夹名）不能包含中文，否则可能会因乱码而无法访问。例如：  
+source为`E:\workspace\201503\a20150312mweud`可以。  
+source为`E:\workspace\201503\a20150312mweud奖励`不可以。  
+3. 上传的文件名不能有大写字母，可能无法访问。例如：  
+source为`E:\workspace\201503\SQ26659`，不可以。  
+source为`E:\workspace\201503\sq26659`，可以。  
 
 ---
 
@@ -88,12 +86,12 @@ sources | 要分离的文件路径。支持多个路径，多个路径用空格�
  选项  | 说明
 ------------- | -------------
 -u --url  | 指定分离路径。如（//game.gtimg.cn/images/dnf/cp/）
--a --aliases | 项目所属产品的别名，根据产品找到对应分离路径。如地下城与勇士为dnf，QQ飞车为speed，王者荣耀为pvp，一般为产品官网缩写。具体别名请查看(https://fenli.egooidea.com/) ，如果别名未找到，请添加或使用-u选项。
+-a --aliases | 项目所属产品的别名，根据产品找到对应分离路径，一般为产品官网缩写。具体别名请查看(https://fenli.egooidea.com/) ，如果别名未找到，请添加或使用-u选项。
 --forcehttps | 强制https，会在分离地址前加上https:，同时，http: 地址会发出错误提示。-a dnf会默认开启强制https
 
 例如：
-- `egoo fenli E:\workspace\DNF-元宵许愿\a20180108wish -a DNF`
-- `egoo fenli E:\workspace\DNF-元宵许愿\a20180108wish -u //game.gtimg.cn/images/dnf/cp/`
+- `egoo fenli E:\workspace\a20180108wish -a dnf`
+- `egoo fenli E:\workspace\a20180108wish -u //game.gtimg.cn/images/dnf/cp/`
 
 上述命令会创建一个*分离后的项目*。
 ### 注意事项

@@ -1,6 +1,6 @@
 {
-  "name": "egoo",
-  "version": "2.1.6",
+  "name": "@egoo/cli",
+  "version": "2.1.7",
   "description": "Egoo CLI. includes several tools to improve work efficiency.",
   "keywords": [
     "egoo",
@@ -8,17 +8,16 @@
     "workflow",
     "tools"
   ],
-  "author": "pata",
-  "license": "",
+  "author": "pataliu",
+  "license": "ISC",
   "repository": {
     "type": "git",
-    "url": "https://github.com/egoo-wh/egoo"
+    "url": "git+https://github.com/egoo-wh/egoo.git"
   },
   "preferGlobal": true,
   "files": [
     "README.md",
-    "lib/",
-    "data/"
+    "lib/"
   ],
   "bin": {
     "egoo": "lib/index.js"
@@ -69,6 +68,15 @@
     "typescript": "^4.8.2"
   },
   "engines": {
-    "node": ">= 10"
+    "node": ">= 14"
+  },
+  "bugs": {
+    "url": "https://github.com/egoo-wh/egoo/issues"
+  },
+  "homepage": "https://github.com/egoo-wh/egoo#readme",
+  "main": "lib/index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
   }
 }
