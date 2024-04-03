@@ -1,6 +1,6 @@
 {
   "name": "@egoo/cli",
-  "version": "2.1.9",
+  "version": "2.2.0",
   "description": "Egoo CLI. includes several tools to improve work efficiency.",
   "keywords": [
     "egoo",
@@ -74,7 +74,7 @@
     "typescript": "^5.4.3"
   },
   "engines": {
-    "node": ">= 14"
+    "node": ">= 18"
   },
   "bugs": {
     "url": "https://github.com/egoo-wh/egoo/issues"

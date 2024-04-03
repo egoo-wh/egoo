@@ -39,10 +39,10 @@ const plugins = [
     'navigator.userAgent': 'undefined',
     preventAssignment: true
   }),
-  nodeResolve({ preferBuiltins: false }),
-  esbuild({ target: 'node18' }),
   commonjs(),
   terser(),
+  nodeResolve({ preferBuiltins: false }),
+  esbuild({ target: 'node18' }),
   json()
 ]
 console.log(r('src/index.ts'))
