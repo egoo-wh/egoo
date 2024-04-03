@@ -1,6 +1,6 @@
-import * as path from 'path';
-import * as colors from 'ansi-colors';
-import * as fancylog from 'fancy-log';
+import path from 'path';
+import colors from 'ansi-colors';
+import fancylog from 'fancy-log';
 
 // 配置文件基准地址
 const CONFIG_URL = 'http://cli.egooidea.com/';

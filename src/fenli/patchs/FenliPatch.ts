@@ -1,4 +1,4 @@
-import * as path from 'path'
+import path from 'path'
 import { Transform } from 'readable-stream';
 import { Patch, PatchInfo } from "../../core/patch";
 

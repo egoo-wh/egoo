@@ -1,7 +1,8 @@
-import Uploader, { QueryInfo, UploadInfo } from "../Uploader";
+import type Uploader from "../Uploader";
+import { QueryInfo, UploadInfo } from "../Uploader";
 import { Patch, PatchInstaller } from "../../core/patch";
-import * as path from 'path';
-import { logger, logMsg, serverPathJoin } from "../../utils";
+import path from 'path';
+import { logger, logMsg } from "../../utils";
 
 const log = logger('Replacer')
 

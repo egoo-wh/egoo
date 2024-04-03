@@ -1,4 +1,4 @@
-import * as path from 'path'
+import path from 'path'
 import { ConfCenter } from '../../core/ConfCenter';
 import { Patch, PatchInfo } from '../../core/patch'
 import { convertToFileExt } from '../../utils/index'

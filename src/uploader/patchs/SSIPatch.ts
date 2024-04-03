@@ -1,17 +1,13 @@
 
 
-import * as fs from 'fs';
-import * as path from 'path';
-import * as util from 'util';
-import * as log from 'fancy-log';
-import * as colors from 'ansi-colors';
-import * as iconv from 'iconv-lite';
-import * as _ from 'lodash';
+import fs, { promises as fspromises } from 'fs';
+import path from 'path';
+import iconv from 'iconv-lite';
+import _ from 'lodash';
 import { logger, logMsg } from '../../utils';
 import { Patch } from '../../core/patch';
 import FileUtil from '../../utils/FileUtil';
 
-const fslstat = util.promisify(fs.lstat);
 const log = logger('SSI')
 
 const INCLUDE_REG = /(<!--\s*#include\s*(virtual|file)\=[\"\'])(.*)[\"\']\s*-->/g;
@@ -69,7 +65,7 @@ export default class SSIPatch extends Patch {
         if (includeFilePath) {
           // console.log(includeFilePath);
           // 获取include文件内容
-          let p = fslstat(includeFilePath).then((stat) => {
+          let p = fspromises.lstat(includeFilePath).then((stat) => {
             return this.getIncludeFileContent(includeFilePath, (contents) => {
               if (!this.includeContents) { this.includeContents = {}; }
               this.includeContents[includeFile] = contents;

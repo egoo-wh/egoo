@@ -1,15 +1,10 @@
-import * as fs from 'fs';
-import * as path from 'path';
-import * as colors from 'ansi-colors';
-import * as util from 'util';
+import { createRequire } from 'module'
+import { promises as fs } from 'fs';
 import { logger, logMsg, getLocalURL, appRootPathJoin } from '../utils';
-
-const fslstat = util.promisify(fs.lstat);
-const fsmkdir = util.promisify(fs.mkdir);
-const fswriteFile = util.promisify(fs.writeFile);
 
 const USER_CONFIG_FILENAME = 'user_conf.json';
 
+const require = createRequire(import.meta.url)
 const log = logger('UserConf')
 
 /**
@@ -53,25 +48,34 @@ export default class UserConf {
     }
   }
 
-  createDataDir(): Promise<boolean> {
+  async createDataDir(): Promise<boolean> {
     let dataDir = appRootPathJoin('data');
-    // return fslstat(dataDir).then(()=>{
-    // 	return Promise.resolve();
-    // }).catch(()=>{
-    // 	return fsmkdir(dataDir, 0o777);
+    console.log(dataDir)
+    try {
+      const stat = await fs.lstat(dataDir);
+      return Promise.resolve(true);
+    } catch (error) {
+      console.log(error);
+      try {
+        await fs.mkdir(dataDir)
+        return Promise.resolve(true);
+      } catch (error) {
+        log('create data directory');
+        return Promise.reject(error);
+      }
+    }
+    // return new Promise((resolve, reject) => {
+    //   fs.lstat(dataDir, (err, stats) => {
+    //     if (err) {
+    //       fs.mkdir(dataDir, 0o777, (err) => {
+    //         if (err) { reject(err); }
+    //         else { resolve(true); }
+    //       })
+    //     } else {
+    //       resolve(true);
+    //     }
+    //   })
     // })
-    return new Promise((resolve, reject) => {
-      fs.lstat(dataDir, (err, stats) => {
-        if (err) {
-          fs.mkdir(dataDir, 0o777, (err) => {
-            if (err) { reject(err); }
-            else { resolve(true); }
-          })
-        } else {
-          resolve(true);
-        }
-      })
-    })
   }
 
 	/**
@@ -105,7 +109,7 @@ export default class UserConf {
   save() {
     if (this.assets) {
       log(logMsg('save user conf.', 'STEP'));
-      return fswriteFile(this.confPath, JSON.stringify(this.assets));
+      return fs.writeFile(this.confPath, JSON.stringify(this.assets));
     } else {
       return Promise.resolve()
     }

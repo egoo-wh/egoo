@@ -1,17 +1,10 @@
 'use strict';
 
-import * as prompt from 'prompt';
-import * as colors from 'ansi-colors';
-import * as path from 'path';
-import * as fs from 'fs';
-import * as util from 'util';
-import * as log from 'fancy-log';
+import prompt from 'prompt';
+import colors from 'ansi-colors';
+import path from 'path';
+import { promises as fs } from 'fs';
 import { isPromise, isUnixHiddenPath } from './index';
-
-const fslstat = util.promisify(fs.lstat);
-const fsmkdir = util.promisify(fs.mkdir);
-const fscopyFile = util.promisify(fs.copyFile);
-const fsreaddir = util.promisify(fs.readdir);
 
 
 export interface WalkFileHandler {
@@ -31,14 +24,14 @@ export async function walkFile<T extends WalkFileHandler>(src: string, handler: 
   }
   let stats;
   try {
-    stats = await fslstat(src);
+    stats = await fs.lstat(src);
   } catch (error) {
     throw new Error('src is invalid')
   }
   if (!stats) { return }
   if (stats.isDirectory()) {
     handler && handler.call(null, { filePath: src, type: "dir" } as T);
-    const files = await fsreaddir(src);
+    const files = await fs.readdir(src);
     let all = files.map((file) => {
       if (!isUnixHiddenPath(file)) {
         return walkFile(path.join(src, file), handler);
@@ -98,26 +91,26 @@ export async function cp(src, dest) {
   }
   let srcStats;
   try {
-    srcStats = await fslstat(src);  
+    srcStats = await fs.lstat(src);  
   } catch (error) {
     throw new Error('cp src is not exist')
   }
   if (srcStats.isDirectory()) {
     let destStats;
     try {
-      destStats = await fslstat(dest);
+      destStats = await fs.lstat(dest);
     } catch (error) {
-      return fsmkdir(dest, 0o777);
+      return fs.mkdir(dest, 0o777);
     }
 
     if (destStats.isDirectory()) {
       return Promise.resolve()
     } else {
-      return fsmkdir(dest, 0o777);
+      return fs.mkdir(dest, 0o777);
     }
   } else {
     // log(LOG_NAME, 'copy file ' + dest);
-    return fscopyFile(src, dest)
+    return fs.copyFile(src, dest)
   }
 }
 

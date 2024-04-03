@@ -1,9 +1,12 @@
-import * as fs from 'fs';
-import * as _ from 'lodash';
-import * as fetch from 'node-fetch';
+import { createRequire } from 'module'
+import fs from 'fs';
+import _ from 'lodash';
+import fetch from 'node-fetch';
 import { logger, appRootPathJoin, getLocalURL, getConfigURL, logMsg } from "../utils";
 import { VersionCtrl } from './ConfVersionCtrl';
+import UserConf from './UserConf';
 
+const require = createRequire(import.meta.url)
 const log = logger('ConfCenter');
 
 /**
@@ -29,7 +32,7 @@ export class ConfCenter {
   async include(configFileName:string, forceReload = false): Promise<void> {
     if (!this.included) {
       log(logMsg('include', 'STEP'))
-      await this.createDataDir();
+      await UserConf.getInstance().createDataDir();
       await this.versionCtrl.init();
       // 配置文件本地路径
       const confPath = getLocalURL(`${configFileName}.json`);
@@ -66,27 +69,6 @@ export class ConfCenter {
   get(configFileName, kpath):any {
     const cfg = this.assets[configFileName];
     return cfg ? _.get(cfg, kpath) : null;
-  }
-
-  createDataDir(): Promise<boolean> {
-    let dataDir = appRootPathJoin('data');
-    // return fslstat(dataDir).then(()=>{
-    // 	return Promise.resolve();
-    // }).catch(()=>{
-    // 	return fsmkdir(dataDir, 0o777);
-    // })
-    return new Promise((resolve, reject) => {
-      fs.lstat(dataDir, (err, stats) => {
-        if (err) {
-          fs.mkdir(dataDir, 0o777, (err) => {
-            if (err) { reject(err); }
-            else { resolve(true); }
-          })
-        } else {
-          resolve(true);
-        }
-      })
-    })
   }
 
   static __instance: ConfCenter;

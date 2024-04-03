@@ -1,26 +1,24 @@
 {
-  "compileOnSave": true,
   "compilerOptions": {
-    "module": "commonjs",
-    "strict": true,
+    "module": "esnext",
+    "target": "esnext",
+    "moduleResolution": "node",
     "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "importHelpers": true,
-    "target": "es2018",
+    "strict": true,
+    "skipLibCheck": true,
+    "noUnusedLocals": false,
+    "resolveJsonModule": true,
+    "verbatimModuleSyntax": true,
     "noImplicitAny": false,
     "strictPropertyInitialization": false,
-    "moduleResolution": "node",
-    "sourceMap": false,
-    "outDir": "lib",
-    "baseUrl": ".",
-    "paths": {
-      "*": [
-        "node_modules/*",
-        "src/types/*"
-      ]
-    }
+    "jsx": "preserve",
+    "lib": ["esnext", "dom", "dom.iterable"]
   },
-  "include": [
-    "src/**/**/*"
+  "exclude": [
+    "**/node_modules/**",
+    "**/dist/**",
+    "template",
+    "bin",
+    "scripts"
   ]
 }

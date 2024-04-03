@@ -2,15 +2,15 @@
 
 'use strict';
 
-import * as path from 'path';
-import * as yargs from 'yargs';
-import * as colors from 'ansi-colors';
+import path from 'path';
+import yargs from 'yargs';
+import colors from 'ansi-colors';
 import Handler from "./Handler";
-import CLI from './CLI';
 import { setAppRoot } from "./utils";
 import Fenli from './fenli/Fenli'
 import Uploader from './uploader/Uploader';
 
+const __dirname = path.dirname(new URL(import.meta.url).pathname)
 setAppRoot(path.join(__dirname, '..'))
 
 let handler: Handler;
@@ -141,6 +141,7 @@ yargs
     process.exit();
   })
   .fail((msg: string, err: Error) => {
+    console.error(err)
     if (handler) {
       console.log('shutdown');
       handler.emit('shutdown');

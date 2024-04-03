@@ -1,15 +1,12 @@
 "use strict"
 
-import { Stream } from 'stream';
-import * as fs from 'fs';
-import * as iconv from 'iconv-lite';
-// import replaceStream from 'replacestream';
-// import split2 from 'split2';
+import { type Stream } from 'stream';
+import fs from 'fs';
+import iconv from 'iconv-lite';
 import SplitStream from '../core/SplitStream'
 import pump from 'pump';
 import pumpify from 'pumpify';
-import * as jschardet from 'jschardet';
-import { string } from 'yargs';
+import jschardet from 'jschardet';
 
 // == file encoding detecter ======================
 let encodingCache: { [key: string]: string } = {};

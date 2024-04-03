@@ -1,13 +1,11 @@
-import * as fs from 'fs';
-import * as path from 'path';
-import * as log from 'fancy-log';
-import * as util from 'util';
-import { Client, SFTPWrapper } from 'ssh2';
+import { promises as fs } from 'fs';
+import path from 'path';
+import { Client, type SFTPWrapper } from 'ssh2';
 import Handler from '../Handler';
 import SSHClient from '../core/SSHClient';
 import { walkFile, sfcall } from '../utils/asyncs';
 import { logger, logMsg, serverPathJoin } from '../utils';
-import { AsyncSeriesHook, AsyncSeriesBailHook, AsyncHook } from 'tapable';
+import { AsyncSeriesHook, AsyncSeriesBailHook, type AsyncHook } from 'tapable';
 import { ConfCenter } from '../core/ConfCenter';
 import GitMode from './plugins/GitMode';
 import ServerHash from './plugins/ServerHash';
@@ -16,7 +14,6 @@ import { Patch } from '../core/patch';
 import InjectedFilePatch from './patchs/InjectedFilePatch';
 import ReplacementPatch from './patchs/ReplacementPatch';
 
-const fslstat = util.promisify(fs.lstat);
 const log = logger('Uploader');
 
 export interface UploadConfig {
@@ -216,7 +213,7 @@ export default class Uploader extends Handler {
       const arr = await promise;
       let stats
       try {
-        stats = await fslstat(source)
+        stats = await fs.lstat(source)
       } catch (error) {
         log(logMsg(`上传路径:${source} 不正确`, 'ERROR'))
         throw error;

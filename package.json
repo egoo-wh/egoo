@@ -1,6 +1,6 @@
 {
   "name": "@egoo/cli",
-  "version": "2.1.7",
+  "version": "2.1.8",
   "description": "Egoo CLI. includes several tools to improve work efficiency.",
   "keywords": [
     "egoo",
@@ -15,20 +15,21 @@
     "url": "git+https://github.com/egoo-wh/egoo.git"
   },
   "preferGlobal": true,
+  "type": "module",
   "files": [
     "README.md",
-    "lib/"
+    "bin/"
   ],
   "bin": {
-    "egoo": "lib/index.js"
+    "egoo": "bin/index.js"
   },
   "scripts": {
     "test": "npx jest",
-    "encryption": "ts-node src/encryption.ts",
-    "decryption": "ts-node src/decryption.ts",
-    "dev-fenli": "ts-node src/index.ts fenli -a dnf /Users/pata/Documents/Egoo/WORKSPACE/DNF-3觉合集/a20200424collection /Users/pata/Documents/Egoo/WORKSPACE/DNF-3觉合集/a20200424collectionm",
-    "dev-pub": "ts-node src/index.ts pub  /Users/pata/Documents/Egoo/WORKSPACE/DNF-3觉合集/a20200424collection /Users/pata/Documents/Egoo/WORKSPACE/DNF-3觉合集/a20200424collectionm",
-    "build": "rimraf lib && npx tsc -p tsconfig.json"
+    "encryption": "npx tsx src/encryption.ts",
+    "decryption": "npx tsx src/decryption.ts",
+    "dev-fenli": "npx tsx src/index.ts fenli -a dnf '/Users/pataliu/Documents/Egoo/WORKSPACE/模板项目/DNF模板项目/a20220310sample'",
+    "dev-pub": "npx tsx src/index.ts pub '/Users/pataliu/Documents/Egoo/WORKSPACE/模板项目/DNF模板项目/a20220310sample'",
+    "build": "tsc -p src --noEmit && rollup --config rollup.config.ts --configPlugin esbuild"
   },
   "dependencies": {
     "ansi-colors": "^4.1.3",
@@ -36,36 +37,41 @@
     "iconv-lite": "^0.6.3",
     "jschardet": "^2.3.0",
     "lodash": "^4.17.21",
-    "node-fetch": "^2.6.7",
+    "node-fetch": "^2.7.0",
     "p-each-series": "^2.2.0",
     "p-reduce": "^2.1.0",
     "prompt": "^1.3.0",
     "pump": "^3.0.0",
     "pumpify": "^2.0.1",
-    "readable-stream": "^3.6.0",
-    "ssh2": "^1.11.0",
+    "readable-stream": "^3.6.2",
+    "ssh2": "^1.15.0",
     "tapable": "^2.2.1",
-    "tslib": "^2.4.0",
     "yargs": "^15.4.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.18.13",
-    "@babel/preset-env": "^7.18.10",
-    "@babel/preset-typescript": "^7.18.6",
+    "@rollup/plugin-alias": "^5.1.0",
+    "@rollup/plugin-commonjs": "^25.0.7",
+    "@rollup/plugin-json": "^6.1.0",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-replace": "^5.0.5",
+    "@rollup/plugin-terser": "^0.4.4",
     "@types/jest": "^25.2.3",
-    "@types/node": "^14.18.21",
-    "@types/prettier": "^2.6.0",
-    "@types/pump": "^1.1.1",
-    "@types/pumpify": "^1.4.1",
-    "@types/readable-stream": "^2.3.13",
+    "@types/node": "^14.18.63",
+    "@types/prettier": "^2.7.3",
+    "@types/pump": "^1.1.3",
+    "@types/pumpify": "^1.4.4",
+    "@types/readable-stream": "^2.3.15",
     "@types/split2": "^2.1.6",
-    "@types/ssh2": "^0.5.52",
+    "@types/ssh2": "^1.15.0",
     "babel-jest": "^26.6.3",
     "jest": "^26.6.3",
     "rimraf": "^3.0.2",
+    "rollup": "^4.13.2",
+    "rollup-plugin-dts": "^6.1.0",
+    "rollup-plugin-esbuild": "^6.1.1",
     "ts-jest": "^26.5.6",
-    "ts-node": "^10.9.1",
-    "typescript": "^4.8.2"
+    "tsx": "^4.7.1",
+    "typescript": "^5.4.3"
   },
   "engines": {
     "node": ">= 14"

@@ -9,15 +9,12 @@
  * HTML敏感代码注释补丁(HTMLCommenterPatch)
  * ServerSideInclude补丁(SSIPatch)
  */
-import * as path from 'path';
+import path from 'path';
 import FileUtil from "../utils/FileUtil";
-import * as colors from 'ansi-colors';
-import * as util from 'util';
-import * as fs from 'fs'
+import { promises as fs} from 'fs'
 import { logger } from '../utils';
 
 const log = logger('PatchInstaller')
-const fsunlink = util.promisify(fs.unlink);
 /**
  * 补丁安装器
  */
@@ -111,7 +108,7 @@ export class PatchInstaller {
   async clear() {
     const all = this.infos.map(async info => {
       if (info.isTempFileDest) {
-        return await fsunlink(info.dest)
+        return await fs.unlink(info.dest)
       } else {
         return Promise.resolve()
       }

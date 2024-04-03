@@ -1,4 +1,4 @@
-import Uploader from "../Uploader";
+import type Uploader from "../Uploader";
 import SSHClient from "../../core/SSHClient";
 import { logger, logMsg } from '../../utils';
 

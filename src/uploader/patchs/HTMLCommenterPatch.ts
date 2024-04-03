@@ -1,13 +1,15 @@
-import * as path from 'path';
-import * as log from 'fancy-log';
-import * as colors from 'ansi-colors';
-import * as fs from 'fs';
-import * as fetch from 'node-fetch';
+import { createRequire } from 'module'
+import path from 'path';
+import log from 'fancy-log';
+import colors from 'ansi-colors';
+import fs from 'fs';
+import fetch from 'node-fetch';
 import UserConf from '../../core/UserConf';
 import { Transform } from 'readable-stream';
 import { getLocalURL, getConfigURL } from '../../utils';
 import { Patch, PatchInfo } from "../../core/patch";
 
+const require = createRequire(import.meta.url)
 /**
  * 敏感代码规则文件的管理类，包含下载，引入，检测更新等
  */

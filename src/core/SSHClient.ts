@@ -1,13 +1,13 @@
-import * as path from 'path';
-import * as fs from 'fs';
-import * as os from 'os';
-import * as util from 'util';
-import * as fetch from 'node-fetch';
-import { Client, SFTPWrapper } from 'ssh2';
+import { createRequire } from 'module'
+import path from 'path';
+import { promises as fs } from 'fs';
+import os from 'os';
+import fetch from 'node-fetch';
+import { Client, type SFTPWrapper } from 'ssh2';
 import { getConfigURL, isHttpPath, logger, logMsg } from '../utils';
 import cipher from './cipher';
 
-const fsreadFile = util.promisify(fs.readFile);
+const require = createRequire(import.meta.url)
 const log = logger('SSHClient');
 
 const SERVER_CONFIG_FILENAME = "server_config.json";
@@ -80,7 +80,7 @@ export default class SSHClient {
   async cipherDecrypt(contents): Promise<object> {
     let keypath = path.join(os.homedir(), '.egookey');
     try {
-      const secret = await fsreadFile(keypath, 'utf8');
+      const secret = await fs.readFile(keypath, 'utf8');
       const ciphers = cipher(secret);
       const decrypted = ciphers.decrypt(contents)
       let r;

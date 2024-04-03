@@ -1,10 +1,10 @@
-import * as fs from 'fs';
-import * as _ from 'lodash';
+import { createRequire } from 'module'
+import { promises as fs } from 'fs';
+import _ from 'lodash';
 import { logger, appRootPathJoin, getLocalURL, getConfigURL, logMsg } from "../utils";
-import * as util from 'util';
 
+const require = createRequire(import.meta.url)
 const log = logger('VersionCtrl');
-const fswriteFile = util.promisify(fs.writeFile);
 /**
  * 配置中心的版本控制
  * 按以下数据结构存储版本文件(config_center_versions.json)
@@ -46,7 +46,7 @@ export class VersionCtrl {
     _.set(this.assets, `${configName}.ttl`, now + expireTime)
     if (this.assets) {
       log(logMsg('save conf.', 'STEP'));
-      return fswriteFile(this.confPath, JSON.stringify(this.assets));
+      return fs.writeFile(this.confPath, JSON.stringify(this.assets));
     } else {
       return Promise.resolve()
     }

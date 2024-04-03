@@ -1,4 +1,4 @@
-import * as crypto from 'crypto'
+import crypto from 'crypto'
 
 const ALGORITHM = 'aes-256-cbc';
 const BLOCK_SIZE = 16;

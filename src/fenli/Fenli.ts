@@ -22,10 +22,10 @@
 	- ...
  */
 
-import * as path from 'path';
+import path from 'path';
 import Handler from '../Handler';
-import * as fetch from 'node-fetch';
-import * as _ from 'lodash';
+import fetch from 'node-fetch';
+import _ from 'lodash';
 import { walkFile, cp } from '../utils/asyncs';
 import { PatchInstaller } from "../core/patch";
 import DeleteProtocolPatch from './patchs/DeleteProtocolPatch';
