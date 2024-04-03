@@ -1,6 +1,6 @@
 {
   "name": "@egoo/cli",
-  "version": "2.1.8",
+  "version": "2.1.9",
   "description": "Egoo CLI. includes several tools to improve work efficiency.",
   "keywords": [
     "egoo",
@@ -80,9 +80,5 @@
     "url": "https://github.com/egoo-wh/egoo/issues"
   },
   "homepage": "https://github.com/egoo-wh/egoo#readme",
-  "main": "lib/index.js",
-  "directories": {
-    "lib": "lib",
-    "test": "test"
-  }
+  "main": "bin/index.js"
 }
