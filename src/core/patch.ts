@@ -56,7 +56,7 @@ export class PatchInstaller {
       pi = new PatchInfo(file, dest, [])
     } else {
       let fileName = path.basename(file);
-      if (fileName.substr(0, 1) !== '~') {
+      if (fileName.substring(0, 1) !== '~') {
         let tempPath = path.join(file, '..', '~' + fileName);
         pi = new PatchInfo(file, tempPath, [])
         pi.isTempFileDest = true;

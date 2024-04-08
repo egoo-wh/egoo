@@ -10,6 +10,7 @@ egoo命令行。包含一些提高工作效率的工具。
 ## 使用
 - [发布功能](#发布)
 - [分离功能](#分离)
+- [docx转html功能](#docx转html功能)(beta)
 
 ## 发布
 将文件发布到内网或者外网。  
@@ -96,7 +97,25 @@ sources | 要分离的文件路径。支持多个路径，多个路径用空格�
 ### 注意事项
 1. 分离工具，只分离html文件和CSS文件。如果其他文件（JS文件）有需要分离的路径，需自行单独处理。
 2. 只会分离ossweb-img|images目录下的图片
-3. beta阶段，谨慎使用。
+
+
+--
+## docx转html功能
+将word文档(.docx)转换成html。
+1. 所有图片会导出到ossweb-img文件夹，并且给`<img>`标签添加`class="docx-img"`
+2. 所有以`-`开头的段落文本（`<p>`），会添加`class="docx-indent1"`
+3. 所有table，会添加`class="docx-table"`
+```
+egoo docx2html <source>
+```
+### 参数说明：
+参数 | 说明
+----- | ------------
+source | 要转换的word文档路径
+
+### 注意事项
+1. beta阶段，谨慎使用。特别是比较复杂的word文档，使用后请和原始word进行对比，确保转换后的html和word内容一致。
+2. 仅支持单个word转换。
 
 ---
 

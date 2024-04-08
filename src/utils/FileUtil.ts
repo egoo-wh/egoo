@@ -1,7 +1,7 @@
 "use strict"
 
 import { type Stream } from 'stream';
-import fs from 'fs';
+import { promises as fs, createReadStream, createWriteStream } from 'fs';
 import iconv from 'iconv-lite';
 import SplitStream from '../core/SplitStream'
 import pump from 'pump';
@@ -25,7 +25,7 @@ function detectFileEncode(filepath: string): Promise<string> {
     } else {
       let fileEncoding: string, metaEncoding;
       // 检测编码
-      let readStream = fs.createReadStream(filepath, {
+      let readStream = createReadStream(filepath, {
         emitClose: true
       });
 
@@ -93,10 +93,10 @@ async function modify(inputPath: string, outputPath: string, replaces: ((line: s
   }
   // 进行 文本的 替换操作。
   return new Promise((resolve, reject) => {
-    let source = fs.createReadStream(inputPath, {
+    let source = createReadStream(inputPath, {
       highWaterMark: 1028 * 1028
     });
-    let dest = fs.createWriteStream(outputPath);
+    let dest = createWriteStream(outputPath);
     // 每行数据的替换
     const split = SplitStream((line) => {
       const r = replaces.reduce((l, replaceFn) => {
@@ -130,10 +130,10 @@ async function modifyByStreams(inputPath: string, outputPath: string, streams: S
   }
   // 进行 文本的 替换操作。
   return new Promise((resolve, reject) => {
-    let source = fs.createReadStream(inputPath, {
+    let source = createReadStream(inputPath, {
       highWaterMark: 1028 * 1028
     });
-    let dest = fs.createWriteStream(outputPath);
+    let dest = createWriteStream(outputPath);
     // 替换操作需先进行编码转换。
     
     // 流中的数据(chunk)是否会正好在要替换的内容中间截断？ 
@@ -153,9 +153,25 @@ async function modifyByStreams(inputPath: string, outputPath: string, streams: S
   }) 
 }
 
+async function createFolder(path: string) {
+  let stats;
+  try {
+    stats = await fs.lstat(path);
+  } catch (error) {
+    // console.log(error)
+    return fs.mkdir(path, 0o777);
+  }
+  if (stats.isDirectory()) {
+    return true
+  } else {
+    return fs.mkdir(path, 0o777);
+  }
+}
+
 export default {
   detectFileEncode,
   isFileEncodeEqual,
   modify,
-  modifyByStreams
+  modifyByStreams,
+  createFolder
 }

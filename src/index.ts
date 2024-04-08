@@ -2,6 +2,7 @@
 
 'use strict';
 
+import { createRequire } from 'module'
 import path from 'path';
 import yargs from 'yargs';
 import colors from 'ansi-colors';
@@ -9,6 +10,10 @@ import Handler from "./Handler";
 import { setAppRoot } from "./utils";
 import Fenli from './fenli/Fenli'
 import Uploader from './uploader/Uploader';
+import Docx2Html from './docx2html';
+
+const require = createRequire(import.meta.url)
+const pkg = require('../package.json')
 
 const __dirname = path.dirname(new URL(import.meta.url).pathname)
 setAppRoot(path.join(__dirname, '..'))
@@ -17,7 +22,7 @@ let handler: Handler;
 
 yargs
   .scriptName('egoo')
-  .version()
+  .version(pkg.version)
   .alias('version', 'v')
   /*
   publish
@@ -134,6 +139,22 @@ yargs
       const fl = new Fenli(sources, forceHttps);
       handler = fl;
       await fl.run(aliases, url);
+    }
+  })
+  .command({
+    command: 'docx2html <source>',
+    describe: 'docx转换成html',
+    builder: {
+      'output': {
+        alias: 'o',
+        type: 'string'
+      }
+    },
+    handler: async (argv) => {
+      const { source, output } = argv;
+      const docx2html = new Docx2Html(source, output);
+      handler = docx2html;
+      await docx2html.run();
     }
   })
   .demandCommand(1, '请指定命令')

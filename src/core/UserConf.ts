@@ -1,6 +1,7 @@
 import { createRequire } from 'module'
 import { promises as fs } from 'fs';
 import { logger, logMsg, getLocalURL, appRootPathJoin } from '../utils';
+import FileUtil from '../utils/FileUtil';
 
 const USER_CONFIG_FILENAME = 'user_conf.json';
 
@@ -48,22 +49,23 @@ export default class UserConf {
     }
   }
 
-  async createDataDir(): Promise<boolean> {
-    let dataDir = appRootPathJoin('data');
-    console.log(dataDir)
-    try {
-      const stat = await fs.lstat(dataDir);
-      return Promise.resolve(true);
-    } catch (error) {
-      console.log(error);
-      try {
-        await fs.mkdir(dataDir)
-        return Promise.resolve(true);
-      } catch (error) {
-        log('create data directory');
-        return Promise.reject(error);
-      }
-    }
+  async createDataDir(): Promise<boolean | void> {
+    return FileUtil.createFolder(appRootPathJoin('data'));
+    // let dataDir = appRootPathJoin('data');
+    // console.log(dataDir)
+    // try {
+    //   const stat = await fs.lstat(dataDir);
+    //   return Promise.resolve(true);
+    // } catch (error) {
+    //   console.log(error);
+    //   try {
+    //     await fs.mkdir(dataDir)
+    //     return Promise.resolve(true);
+    //   } catch (error) {
+    //     log('create data directory');
+    //     return Promise.reject(error);
+    //   }
+    // }
     // return new Promise((resolve, reject) => {
     //   fs.lstat(dataDir, (err, stats) => {
     //     if (err) {
