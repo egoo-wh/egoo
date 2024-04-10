@@ -103,10 +103,10 @@ export default class Docx2Html extends Handler {
     }
     // 移除img alt换行文本，因为有些文本会换行。
     $('img').addClass('docx-img').attr('alt', '');
+    $('table').addClass('docx-table')
     // table如果没有thead，则把tbody首个tr的td改为th，放进thead
-    // 如果表头有多行？结构就会有问题。
+    // 如果表头有多行？结构就会有问题。表头一般背景色不同，但是mammoth无法获取背景色。
     // $('table').each(function(i, table) {
-    //   $(table).addClass('docx-table')
     //   if ($(table).find('thead').length <= 0 && $(table).find('th').length <= 0) {
     //     const firstTR = $(table).addClass('doxc-table').find('tbody').find('tr').first().remove();
     //     firstTR.find('td').each(function(i, el) {
@@ -133,7 +133,7 @@ export default class Docx2Html extends Handler {
           const imageBuffer = await image.readAsBase64String();
           let imgType = image.contentType.split('/').pop();
           // console.log(`imgType: ${imgType}`
-          if (imgType == 'x-emf') {
+          if (imgType === 'x-emf') {
             imgType = 'png'
           }
           const imgName = `docx-image${this.imageCounter}.${imgType}`;

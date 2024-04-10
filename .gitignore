@@ -13,6 +13,5 @@ lib/encryption.js
 .egookey
 static/server_config.json
 static/server_config_origin.json
-bin
 __test
 __lib
