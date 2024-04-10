@@ -1,6 +1,6 @@
 {
   "name": "@egoo/cli",
-  "version": "2.2.2",
+  "version": "2.2.3",
   "description": "Egoo CLI. includes several tools to improve work efficiency.",
   "keywords": [
     "egoo",
