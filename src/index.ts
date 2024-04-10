@@ -11,11 +11,13 @@ import { setAppRoot } from "./utils";
 import Fenli from './fenli/Fenli'
 import Uploader from './uploader/Uploader';
 import Docx2Html from './docx2html';
+import { fileURLToPath } from 'url';
 
 const require = createRequire(import.meta.url)
 const pkg = require('../package.json')
 
-const __dirname = path.dirname(new URL(import.meta.url).pathname)
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
+console.log(__dirname);
 setAppRoot(path.join(__dirname, '..'))
 
 let handler: Handler;
