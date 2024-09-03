@@ -10,6 +10,7 @@ import Handler from "./Handler";
 import { setAppRoot } from "./utils";
 import Fenli from './fenli/Fenli'
 import Uploader from './uploader/Uploader';
+import Spritesheet from './spritesheet/spritesheet';
 import Docx2Html from './docx2html';
 import { fileURLToPath } from 'url';
 
@@ -17,7 +18,6 @@ const require = createRequire(import.meta.url)
 const pkg = require('../package.json')
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
-console.log(__dirname);
 setAppRoot(path.join(__dirname, '..'))
 
 let handler: Handler;
@@ -157,6 +157,54 @@ yargs
       const docx2html = new Docx2Html(source, output);
       handler = docx2html;
       await docx2html.run();
+    }
+  })
+  /*
+  spritesheet
+  */
+  .command({
+    command: 'spritesheet <source>',
+    aliases: ['spr'],
+    describe: '生成雪碧图',
+    builder: {
+      'template': {
+        alias: 't',
+        describe: '使用的模版。scss是一些mixin，可以import使用',
+        type: 'string',
+        default: '',
+      },
+      'scale': {
+        describe: '图片的倍率。设置为2表示图片尺寸是2倍图，对应雪碧图的background-size是图片大小的一半。如LOL LCU的设置。',
+        type: 'number',
+        default: 1,
+      },
+      'unit_transform_function': {
+        describe: '单位转换函数。当模板是scss时，px单位使用的转换函数。主要用于2倍图等场景。格式如下：r2($$)，$$会转换为具体px单位。r2函数需在外部scss中定义。',
+        type: 'string',
+        default: ''
+      },
+      'retina': {
+        describe: '是否生成retina图',
+        type: 'boolean',
+        default: false,
+      },
+      'padding': {
+        describe: '图片之间的间隙',
+        type: 'number',
+        default: 2
+      },
+      'algorithm': {
+        alias: 'a',
+        describe: '[可选值: "top-down", "left-right", "binary-tree", "diagonal", "alt-diagonal"] [默认值: "left-right"]',
+        type: 'string',
+        default: 'binary-tree',
+      },
+    },
+    handler: async (argv) => {
+      let { source, template, unit_transform_function, padding, algorithm } = argv;
+      const spr = new Spritesheet(source, template, unit_transform_function, padding, algorithm);
+      handler = spr;
+      await spr.run();
     }
   })
   .demandCommand(1, '请指定命令')
