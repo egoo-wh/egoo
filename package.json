@@ -1,6 +1,6 @@
 {
   "name": "@egoo/cli",
-  "version": "2.3.0",
+  "version": "2.3.3",
   "description": "Egoo CLI. includes several tools to improve work efficiency.",
   "keywords": [
     "egoo",
@@ -32,6 +32,7 @@
     "dev:spr": "npx tsx src/index.ts spr --template scss --unit_transform_function 'r2($$)' '__test/spritesheet/pop'",
     "dev:docx2html": "npx tsx src/index.ts docx2html '__test/docx2html/20240320 - DNF0312版本网页抓虫 便利性优化v2.docx'",
     "build": "tsc -p src --noEmit && rollup --config rollup.config.ts --configPlugin esbuild",
+    "link:local": "npm run build && npm link .",
     "deploy": "npm run build && npm publish --registry https://registry.npmjs.org/"
   },
   "dependencies": {
