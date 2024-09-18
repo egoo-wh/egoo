@@ -3,7 +3,9 @@ import { Transform } from 'readable-stream';
 import { Patch, PatchInfo } from "../../core/patch";
 
 const HTML_ELEMENT_REG = /(<([^>]+)>)/g;
-const HTML_TAG_IMG_REG = /<([^>]+)\s*(src|href|poster)(\s*=['"])(\.+\/)*(images|ossweb-img)(.*['"])[^>]*>/g
+// <([^>]+)\s*(src|href|poster)(\s*=['"])(\.+\/)*(images|ossweb-img)(.*['"])[^>]*[\r]*>
+// 标签折行问题，正则去掉了最后的[\r]*>部分。这可能在某些情况下会有问题。
+const HTML_TAG_IMG_REG = /<([^>]+)\s*(src|href|poster)(\s*=['"])(\.+\/)*(images|ossweb-img)(.*['"])[^>]*/g;
 const CSS_URL_REG = /(url\(\s*['"]?)([^"')]+)(["']?\s*\))/g;
 const CSS_IMG_REG = /([#\s\w]*)(url\(\s*['"]?)(\.+\/)*(images|ossweb-img)/g;
 
@@ -104,6 +106,10 @@ export default class FenliPatch extends Patch {
   replaceRelativeUrlsInHTMLTag(chunk) {
     // TODO:
     // https://github.com/peerigon/batch-replace/
+
+    // 因为是以每行作为一个单元来替换，所以遇到标签折行的情况，替换时可能会出现问题，所以修改了正则。这可能带来新的未发现问题。
+    // <img src="ossweb-img/give/avatar.jpg"
+    //   class="user-head2" />    
     chunk = chunk.replace(HTML_TAG_IMG_REG, (match, p1, p2, p3, p4, p5) => {
       return match ? match.replace(/(\.+\/)*(images|ossweb-img)/g, this.fenliPath) : match;
     });
