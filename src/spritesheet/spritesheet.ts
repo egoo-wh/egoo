@@ -55,11 +55,12 @@ export default class Spritesheet extends Handler {
       dispose: new AsyncSeriesHook()
     }
     
-    console.log(this.template)
-    if (this.template === 'simple') {
+    if (this.template === 'default') {
       new DefaultTemplatePlugin(this)
     } else if (this.template === 'scss' || this.template === 'sass') {
       new SCSSTemplatePlugin(this, unit_transform_function)
+    } else {
+      throw new Error(`template: ${this.template} is not found`);
     }
   }
 

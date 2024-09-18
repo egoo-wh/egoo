@@ -11,6 +11,7 @@ egoo命令行。包含一些提高工作效率的工具。
 - [发布功能](#发布)
 - [分离功能](#分离)
 - [docx转html功能](#docx转html功能)(beta)
+- [雪碧图功能](#雪碧图功能)(beta)
 
 ## 发布
 将文件发布到内网或者外网。  
@@ -117,6 +118,30 @@ source | 要转换的word文档路径
 1. beta阶段，谨慎使用。特别是比较复杂的word文档，使用后请和原始word进行对比，确保转换后的html和word内容一致。
 2. 仅支持单个word转换。
 
+--
+## 雪碧图功能
+将图片文件夹内的所有图片导出为一张雪碧图和一个css/scss。
+```
+egoo spr <source>
+```
+### 参数说明：
+参数 | 说明
+----- | ------------
+source | 要合成雪碧图的图片文件夹
+
+### 选项说明：
+
+ 选项  | 说明
+------------- | -------------
+-t --template  | css/scss，默认是css
+--unit_transform_function| scss单位转换函数。当--template为scss时，px单位使用的转换函数。主要用于2倍图等场景。格式如下：r2($$)，$$会转换为具体px单位。r2函数需在外部scss中定义。
+-p --padding | 图片之间的间隙，默认为2
+-a --algorithm | 雪碧图排列算法。"top-down", "left-right", "binary-tree", "diagonal", "alt-diagonal"。默认binary-tree
+
+
+
+### 注意事项
+1. beta阶段，谨慎使用。
 ---
 
 ### 关于Windows命令行(cmd)使用技巧：

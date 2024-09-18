@@ -23,13 +23,14 @@ export default class DefaultTemplatePlugin {
   render(spritesheet: Spritesheet, target: SpriteTemplateTarget, result: SpritesmithResult) {
     const imagePath = path.relative(target.css, target.image);
     const { properties, coordinates } = result;
+    const sourceName = path.basename(spritesheet.source)
     let tpl = ''
-    tpl += `.spr{background-image: url(${imagePath});background-size: ${properties.width}px ${properties.height}px;}\n`;
+    tpl += `.${sourceName}-spr{background-image: url(${imagePath});background-size: ${properties.width}px ${properties.height}px;}\n`;
     for (let k in coordinates) {
       const d = coordinates[k]
       k = path.relative(spritesheet.source, k);
       k = k.replace(/\.[png|jpeg|jpg|webp]*/, '');
-      tpl += `.spr.${k}{background-position: ${d.x}px ${d.y}px;}\n`;
+      tpl += `.${sourceName}-spr.${k}{background-position: ${d.x}px ${d.y}px;}\n`;
     }
     return tpl
   }
